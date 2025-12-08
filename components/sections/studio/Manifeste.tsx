@@ -48,6 +48,7 @@ export default function Manifeste() {
           trigger: card,
           start: "top 85%",
           end: "top 40%",
+          once: true,
           onEnter: () => {
             gsap.to(card, {
               opacity: 1,
@@ -58,18 +59,6 @@ export default function Manifeste() {
               delay: index * 0.1,
               ease: "power3.out",
             });
-          },
-        });
-
-        // Subtle float on scroll
-        gsap.to(card, {
-          y: -20,
-          ease: "none",
-          scrollTrigger: {
-            trigger: card,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 2,
           },
         });
       });

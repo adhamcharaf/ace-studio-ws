@@ -70,6 +70,7 @@ export default function Methode() {
         ScrollTrigger.create({
           trigger: step,
           start: "top 75%",
+          once: true,
           onEnter: () => {
             // Animate dot first
             gsap.to(dot, {

@@ -38,7 +38,7 @@ function CreativityIcon({ isHovered }: { isHovered: boolean }) {
         stroke="var(--ace-gold)"
         strokeWidth="2"
         strokeDasharray="95"
-        strokeDashoffset={isHovered ? 0 : 95}
+        strokeDashoffset={isHovered ? 0 : 70}
         style={{ transition: "stroke-dashoffset 0.8s ease-out" }}
       />
       <path
@@ -48,7 +48,7 @@ function CreativityIcon({ isHovered }: { isHovered: boolean }) {
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeDasharray="60"
-        strokeDashoffset={isHovered ? 0 : 60}
+        strokeDashoffset={isHovered ? 0 : 45}
         style={{ transition: "stroke-dashoffset 0.8s ease-out 0.2s" }}
       />
       <circle

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 
 interface Particle {
   x: number;
@@ -45,6 +45,7 @@ export function useParticleSystem(config: ParticleConfig = {}) {
   const mouseRef = useRef({ x: -1000, y: -1000 });
   const dimensionsRef = useRef({ width: 0, height: 0 });
   const timeRef = useRef(0);
+  const [isVisible, setIsVisible] = useState(true); // IntersectionObserver state
 
   const initParticles = useCallback((width: number, height: number) => {
     const particles: Particle[] = [];
@@ -167,6 +168,26 @@ export function useParticleSystem(config: ParticleConfig = {}) {
     }
   }, [initParticles]);
 
+  // IntersectionObserver pour pauser quand hors viewport (économie CPU/batterie)
+  useEffect(() => {
+    if (disabled || typeof window === "undefined") return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.1 } // Déclenche quand 10% visible
+    );
+
+    observer.observe(canvas);
+
+    return () => observer.disconnect();
+  }, [disabled]);
+
+  // Animation loop - seulement si visible
   useEffect(() => {
     if (disabled || typeof window === "undefined") return;
 
@@ -174,7 +195,11 @@ export function useParticleSystem(config: ParticleConfig = {}) {
     if (prefersReducedMotion) return;
 
     handleResize();
-    animationRef.current = requestAnimationFrame(animate);
+
+    // Ne lance l'animation que si visible
+    if (isVisible) {
+      animationRef.current = requestAnimationFrame(animate);
+    }
 
     window.addEventListener("resize", handleResize);
     window.addEventListener("mousemove", handleMouseMove);
@@ -188,7 +213,7 @@ export function useParticleSystem(config: ParticleConfig = {}) {
       window.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, [disabled, animate, handleMouseMove, handleMouseLeave, handleResize]);
+  }, [disabled, animate, handleMouseMove, handleMouseLeave, handleResize, isVisible]);
 
   return {
     canvasRef,

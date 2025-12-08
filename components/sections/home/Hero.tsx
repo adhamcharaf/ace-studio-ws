@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useLayoutEffect, useEffect } from "react";
+import { useRef, useLayoutEffect, useEffect, useState } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -16,6 +16,10 @@ if (typeof window !== "undefined") {
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
+// Durée du pin responsive (réduit sur mobile pour fluidité)
+const PIN_DURATION_MOBILE = 600;
+const PIN_DURATION_DESKTOP = 1800;
+
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const logoWatermarkRef = useRef<HTMLDivElement>(null);
@@ -30,6 +34,15 @@ export default function Hero() {
   const ctaRef = useRef<HTMLDivElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const cornerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Détecter mobile pour le scroll
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useIsomorphicLayoutEffect(() => {
     if (!sectionRef.current) return;
@@ -78,13 +91,17 @@ export default function Hero() {
         opacity: 0,
       });
 
+      // Utiliser matchMedia pour adapter la durée du pin selon le viewport
+      const mm = gsap.matchMedia();
+      const pinDuration = window.innerWidth < 768 ? PIN_DURATION_MOBILE : PIN_DURATION_DESKTOP;
+
       // Create cinematic timeline triggered on scroll
       const tl = gsap.timeline({
         scrollTrigger: {
           id: "hero-pin",
           trigger: sectionRef.current,
           start: "top top-=1",
-          end: "+=1800",
+          end: `+=${pinDuration}`,
           toggleActions: "play none none none",
           pin: true,
           pinSpacing: true,
@@ -215,9 +232,10 @@ export default function Hero() {
   }, []);
 
   const handleScrollDown = () => {
-    // Account for pin spacing (1800px) + viewport height
+    // Account for pin spacing (responsive) + viewport height
+    const pinDuration = isMobile ? PIN_DURATION_MOBILE : PIN_DURATION_DESKTOP;
     window.scrollTo({
-      top: window.innerHeight + 1800,
+      top: window.innerHeight + pinDuration,
       behavior: "smooth",
     });
   };

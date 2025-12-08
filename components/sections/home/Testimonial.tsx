@@ -14,8 +14,8 @@ const TESTIMONIAL = {
   quote:
     "ACE STUDIO a transformé notre vision en réalité. Le site d'Arena reflète parfaitement l'excellence et le prestige de notre complexe sportif. Un travail sur mesure, une équipe à l'écoute, un résultat qui dépasse nos attentes.",
   author: "Direction",
-  company: "Arena Sports Complex",
-  location: "Abidjan",
+  company: "Arena Club-Sport & Events",
+  location: "Grand-Bassam",
 };
 
 export default function Testimonial() {

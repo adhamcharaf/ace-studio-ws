@@ -129,6 +129,8 @@ export default function PortfolioPreview() {
           rel="noopener noreferrer"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={() => setIsHovered(true)}
+          onTouchEnd={() => setIsHovered(false)}
           className={cn(
             "group relative block max-w-5xl mx-auto",
             "rounded-2xl overflow-hidden",

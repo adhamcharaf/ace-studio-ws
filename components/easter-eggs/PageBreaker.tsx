@@ -1,8 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useCallback, useState } from "react";
-import Matter from "matter-js";
+import type Matter from "matter-js";
 import { Button } from "@/components/ui";
+
+// Dynamic import pour économiser ~170KB du bundle initial
+let MatterModule: typeof Matter | null = null;
+const loadMatter = async () => {
+  if (!MatterModule) {
+    MatterModule = (await import("matter-js")).default;
+  }
+  return MatterModule;
+};
 
 interface PageBreakerProps {
   isActive: boolean;
@@ -94,7 +103,7 @@ export default function PageBreaker({ isActive, onReset }: PageBreakerProps) {
   }, []);
 
   // Create fake scrollbar element
-  const createFakeScrollbar = useCallback((engine: Matter.Engine, container: HTMLElement) => {
+  const createFakeScrollbar = useCallback((Matter: typeof import("matter-js"), engine: Matter.Engine, container: HTMLElement) => {
     const scrollbarWidth = 12;
     const scrollbarHeight = 100;
     const scrollTop = window.scrollY;
@@ -178,14 +187,17 @@ export default function PageBreaker({ isActive, onReset }: PageBreakerProps) {
     // Phase 1: Screen shake
     document.body.classList.add("shake-effect-intense");
 
-    // Phase 2: Start falling after shake
-    setTimeout(() => {
+    // Phase 2: Start falling after shake (load Matter.js dynamically)
+    setTimeout(async () => {
       document.body.classList.remove("shake-effect-intense");
       setPhase("fall");
-      initPhysics();
+
+      // Chargement dynamique de Matter.js (~170KB économisés)
+      const Matter = await loadMatter();
+      initPhysics(Matter);
     }, 400);
 
-    const initPhysics = () => {
+    const initPhysics = (Matter: typeof import("matter-js")) => {
       if (!containerRef.current) return;
 
       // Create physics engine with stronger gravity
@@ -358,7 +370,7 @@ export default function PageBreaker({ isActive, onReset }: PageBreakerProps) {
       processNextBatch();
 
       // Add fake scrollbar
-      const scrollbarElements = createFakeScrollbar(engine, containerRef.current);
+      const scrollbarElements = createFakeScrollbar(Matter, engine, containerRef.current);
       fallingElements.push(...scrollbarElements);
 
       elementsRef.current = fallingElements;
@@ -394,12 +406,12 @@ export default function PageBreaker({ isActive, onReset }: PageBreakerProps) {
         cancelAnimationFrame(animationFrameRef.current);
       }
 
-      if (runnerRef.current) {
-        Matter.Runner.stop(runnerRef.current);
+      if (runnerRef.current && MatterModule) {
+        MatterModule.Runner.stop(runnerRef.current);
       }
 
-      if (engineRef.current) {
-        Matter.Engine.clear(engineRef.current);
+      if (engineRef.current && MatterModule) {
+        MatterModule.Engine.clear(engineRef.current);
       }
 
       // Restore original elements

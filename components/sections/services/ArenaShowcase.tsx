@@ -14,6 +14,15 @@ export default function ArenaShowcase() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Détecter mobile pour désactiver scrub (performance)
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Get the site vitrine service with Arena project
   const siteVitrine = SERVICES.find((s) => s.id === "site-vitrine");
@@ -37,16 +46,18 @@ export default function ArenaShowcase() {
         },
       });
 
-      // Border glow animation on scroll
-      gsap.to(videoContainerRef.current, {
-        boxShadow: "0 0 60px rgba(201,160,80,0.25)",
-        scrollTrigger: {
-          trigger: videoContainerRef.current,
-          start: "top 70%",
-          end: "bottom 30%",
-          scrub: true,
-        },
-      });
+      // Border glow animation on scroll (désactivé sur mobile pour performance)
+      if (!isMobile) {
+        gsap.to(videoContainerRef.current, {
+          boxShadow: "0 0 60px rgba(201,160,80,0.25)",
+          scrollTrigger: {
+            trigger: videoContainerRef.current,
+            start: "top 70%",
+            end: "bottom 30%",
+            scrub: 1, // Smoother scrub avec debounce
+          },
+        });
+      }
 
       // Content animation
       gsap.from(contentRef.current, {
@@ -62,21 +73,23 @@ export default function ArenaShowcase() {
         },
       });
 
-      // Parallax effect on video
-      gsap.to(videoRef.current, {
-        yPercent: -8,
-        ease: "none",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true,
-        },
-      });
+      // Parallax effect on video (désactivé sur mobile pour performance)
+      if (!isMobile) {
+        gsap.to(videoRef.current, {
+          yPercent: -8,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1, // Smoother scrub avec debounce
+          },
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
-  }, [project]);
+  }, [project, isMobile]);
 
   if (!project) return null;
 
@@ -131,6 +144,8 @@ export default function ArenaShowcase() {
           rel="noopener noreferrer"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
+          onTouchStart={() => setIsHovered(true)}
+          onTouchEnd={() => setIsHovered(false)}
           className="group block relative max-w-6xl mx-auto"
         >
           <div
