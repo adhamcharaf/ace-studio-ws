@@ -92,22 +92,21 @@ export default function Hero() {
       });
 
       // Utiliser matchMedia pour adapter la durée du pin selon le viewport
-      const mm = gsap.matchMedia();
       const pinDuration = window.innerWidth < 768 ? PIN_DURATION_MOBILE : PIN_DURATION_DESKTOP;
 
-      // Create cinematic timeline triggered on scroll
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          id: "hero-pin",
-          trigger: sectionRef.current,
-          start: "top top-=1",
-          end: `+=${pinDuration}`,
-          toggleActions: "play none none none",
-          pin: true,
-          pinSpacing: true,
-          invalidateOnRefresh: true,
-        },
+      // Pin séparé (section reste fixe pendant la durée)
+      ScrollTrigger.create({
+        id: "hero-pin",
+        trigger: sectionRef.current,
+        start: "top top",
+        end: `+=${pinDuration}`,
+        pin: true,
+        pinSpacing: true,
+        invalidateOnRefresh: true,
       });
+
+      // Timeline qui joue immédiatement au chargement
+      const tl = gsap.timeline({ delay: 0.3 });
 
       // 1. Logo watermark + GlowCircles emerge
       tl.to(logoWatermarkRef.current, {
