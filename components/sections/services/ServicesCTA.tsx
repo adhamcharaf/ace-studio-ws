@@ -117,9 +117,7 @@ export default function ServicesCTA() {
           {/* CTA Button */}
           <Link
             ref={buttonRef}
-            href={WHATSAPP_LINK}
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/contact"
             className="group inline-flex items-center gap-3 px-8 py-4 bg-[var(--ace-gold)] text-[var(--ace-black)] font-semibold text-lg rounded-full transition-all duration-300 hover:bg-[var(--ace-white)] hover:shadow-[0_0_40px_rgba(201,160,80,0.4)] btn-premium"
           >
             <span>Discutons de votre projet</span>
