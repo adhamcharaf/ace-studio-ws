@@ -41,7 +41,7 @@ export default function StrikeThroughText({
         {text}
         <span
           className={cn(
-            "absolute left-0 top-1/2 h-[3px] bg-[var(--ace-gold)]",
+            "absolute left-0 top-[60%] h-[3px] bg-[var(--ace-gold)]",
             "transition-all duration-500 ease-out",
             isVisible ? "w-full" : "w-0"
           )}
