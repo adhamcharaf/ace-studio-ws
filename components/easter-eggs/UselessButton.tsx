@@ -89,10 +89,19 @@ export default function UselessButton() {
       // Limites du viewport
       const margin = 30;
       const maxX = window.innerWidth / 2 - margin;
-      const maxY = window.innerHeight / 2 - margin;
+
+      // Limiter Y vers le haut (viewport)
+      const maxYUp = window.innerHeight / 2 - margin;
+
+      // Limiter Y vers le bas (ne pas dépasser le bas du conteneur parent/section)
+      const parent = btn.closest("section");
+      const parentRect = parent?.getBoundingClientRect();
+      const maxYDown = parentRect
+        ? parentRect.bottom - rect.bottom - margin
+        : window.innerHeight / 2 - margin;
 
       newX = Math.max(-maxX, Math.min(maxX, newX));
-      newY = Math.max(-maxY, Math.min(maxY, newY));
+      newY = Math.max(-maxYUp, Math.min(maxYDown, newY));
 
       setOffset({ x: newX, y: newY });
       setAttempts((prev) => prev + 1);
