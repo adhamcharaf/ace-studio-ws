@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, ReactNode } from "react";
+import { useState, useEffect, useLayoutEffect, ReactNode } from "react";
 import { PageBreaker } from "@/components/easter-eggs";
 
 interface ClientLayoutProps {
@@ -9,6 +9,14 @@ interface ClientLayoutProps {
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
   const [isPageBroken, setIsPageBroken] = useState(false);
+
+  // Scroll to top BEFORE any other effects run (useLayoutEffect runs synchronously)
+  useLayoutEffect(() => {
+    if ("scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     const handlePageBreak = () => {
