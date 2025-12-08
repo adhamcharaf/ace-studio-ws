@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, ReactNode } from "react";
+import { usePathname } from "next/navigation";
 import { PageBreaker } from "@/components/easter-eggs";
 
 interface ClientLayoutProps {
@@ -9,6 +10,12 @@ interface ClientLayoutProps {
 
 export default function ClientLayout({ children }: ClientLayoutProps) {
   const [isPageBroken, setIsPageBroken] = useState(false);
+  const pathname = usePathname();
+
+  // Scroll to top on route change (client-side navigation)
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   useEffect(() => {
     const handlePageBreak = () => {
