@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter, Space_Grotesk } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -81,6 +82,11 @@ export default function RootLayout({
       className={`${playfair.variable} ${inter.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <Script id="scroll-restoration" strategy="beforeInteractive">
+          {`if(history.scrollRestoration){history.scrollRestoration='manual';}window.scrollTo(0,0);`}
+        </Script>
+      </head>
       <body className="bg-[var(--theme-background)] text-[var(--theme-text)] antialiased transition-colors duration-300">
         <ThemeProvider>
           <ClientLayout>
