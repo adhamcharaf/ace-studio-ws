@@ -134,29 +134,6 @@ export const VALUES = [
   },
 ] as const;
 
-export const PROCESS_STEPS = [
-  {
-    step: 1,
-    title: "Brief",
-    description: "On écoute, on comprend",
-  },
-  {
-    step: 2,
-    title: "Maquette",
-    description: "Design validé avant de coder",
-  },
-  {
-    step: 3,
-    title: "Développement",
-    description: "Code propre, sur mesure",
-  },
-  {
-    step: 4,
-    title: "Livraison",
-    description: "Tests, ajustements, et c'est en ligne",
-  },
-] as const;
-
 export const COMPARISON = [
   {
     template: "Design générique",

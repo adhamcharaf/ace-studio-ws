@@ -4,3 +4,8 @@ export { useCounter } from "./useCounter";
 export { useScroll } from "./useScroll";
 export { useMousePosition, useElementMousePosition } from "./useMousePosition";
 export { useMagneticEffect } from "./useMagneticEffect";
+export { useTiltEffect } from "./useTiltEffect";
+export { useParallaxLayers } from "./useParallaxLayers";
+export { useAuroraGradient } from "./useAuroraGradient";
+export { useParticleSystem } from "./useParticleSystem";
+export { useMagneticWords } from "./useMagneticWords";

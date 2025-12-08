@@ -52,60 +52,65 @@ export default function CodeToDesign() {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: 1,
-          pin: false,
+          start: "top top-=1", // Attend le premier scroll avant de déclencher
+          end: "+=1500", // Zone de pin assez longue pour couvrir l'animation de 4s
+          toggleActions: "play none none none",
+          pin: true,
+          pinSpacing: true,
         },
       });
 
-      // Phase 1: Code visible, starts glitching
+      // Phase 1: Code visible, starts glitching (0.6s)
       tl.to(codeRef.current, {
         filter: "blur(2px)",
         opacity: 0.6,
         scale: 0.98,
-        duration: 0.3,
+        duration: 0.6,
+        ease: "power2.inOut",
       });
 
-      // Phase 2: Glitch effect appears
+      // Phase 2: Glitch effect appears (0.5s simultané)
       tl.to(
         glitchRef.current,
         {
           opacity: 1,
-          duration: 0.2,
+          duration: 0.5,
         },
         "<"
       );
 
-      // Phase 3: Code fades out, glitch intensifies
+      // Phase 3: Code fades out, glitch intensifies (0.8s)
       tl.to(codeRef.current, {
         filter: "blur(8px)",
         opacity: 0,
         scale: 0.9,
         y: -30,
-        duration: 0.3,
+        duration: 0.8,
+        ease: "power2.in",
       });
 
+      // Glitch fades (0.5s)
       tl.to(
         glitchRef.current,
         {
           opacity: 0,
           scale: 1.1,
-          duration: 0.2,
+          duration: 0.5,
         },
-        "-=0.1"
+        "-=0.3"
       );
 
-      // Phase 4: Design fades in
+      // Phase 4: Design fades in (1.2s)
       tl.to(
         designRef.current,
         {
           opacity: 1,
           scale: 1,
           filter: "blur(0px)",
-          duration: 0.4,
+          duration: 1.2,
+          ease: "power2.out",
         },
-        "-=0.2"
+        "-=0.4"
       );
     }, sectionRef);
 
@@ -115,10 +120,10 @@ export default function CodeToDesign() {
   return (
     <section
       ref={sectionRef}
-      className="relative h-[250vh] bg-[var(--ace-black)]"
+      className="relative min-h-screen bg-[var(--ace-black)]"
     >
-      {/* Sticky container */}
-      <div className="sticky top-0 h-screen flex items-center justify-center overflow-hidden">
+      {/* Container - GSAP pin handles the sticky behavior */}
+      <div className="h-screen flex items-center justify-center overflow-hidden">
         {/* Background noise */}
         <div className="absolute inset-0 opacity-[0.03]">
           <div className="absolute inset-0 bg-noise" />
@@ -201,9 +206,9 @@ export default function CodeToDesign() {
               {"< Notre philosophie />"}
             </span>
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-[var(--font-playfair)] text-[var(--ace-white)] leading-tight mb-6">
-              Du code.
+              Du code
               <br />
-              <span className="text-[var(--ace-gold)]">De l&apos;art.</span>
+              <span className="text-[var(--ace-gold)]">naît l&apos;art.</span>
             </h2>
             <p className="text-[var(--ace-gray)] text-lg md:text-xl max-w-xl mx-auto">
               Chaque ligne écrite avec intention.

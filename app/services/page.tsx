@@ -3,7 +3,6 @@ import {
   ServicesHeader,
   CodeToDesign,
   ServicesTriptych,
-  ProcessTimeline,
   Comparison,
   ServicesCTA,
 } from "@/components/sections/services";
@@ -20,7 +19,6 @@ export default function ServicesPage() {
       <CodeToDesign />
       <ServicesHeader />
       <ServicesTriptych />
-      <ProcessTimeline />
       <Comparison />
       <ServicesCTA />
     </>

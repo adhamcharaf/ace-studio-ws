@@ -4,7 +4,7 @@ import {
   Stats,
   ServicesPreview,
   PortfolioPreview,
-  ProcessPreview,
+  Testimonial,
   CTA,
 } from "@/components/sections/home";
 
@@ -16,7 +16,7 @@ export default function HomePage() {
       <Stats />
       <ServicesPreview />
       <PortfolioPreview />
-      <ProcessPreview />
+      <Testimonial />
       <CTA />
     </>
   );

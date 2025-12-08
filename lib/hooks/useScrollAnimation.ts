@@ -43,6 +43,7 @@ export function useScrollAnimation<T extends HTMLElement = HTMLDivElement>(
         duration,
         delay,
         ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: element,
           start: "top 85%",
@@ -84,6 +85,7 @@ export function useStaggerAnimation<T extends HTMLElement = HTMLDivElement>(
         delay,
         stagger,
         ease: "power2.out",
+        clearProps: "all",
         scrollTrigger: {
           trigger: container,
           start: "top 85%",
