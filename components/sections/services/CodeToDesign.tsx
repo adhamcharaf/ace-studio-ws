@@ -1,10 +1,14 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useLayoutEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Use useLayoutEffect on client, useEffect on server
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 // Nombre de lignes dans le snippet de code
 const CODE_LINES = 19;
@@ -47,16 +51,23 @@ export default function CodeToDesign() {
     );
   }, []);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    if (!sectionRef.current) return;
+
+    // Kill any existing ScrollTriggers with our ID first
+    ScrollTrigger.getById("code-to-design-pin")?.kill();
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({
         scrollTrigger: {
+          id: "code-to-design-pin",
           trigger: sectionRef.current,
           start: "top top-=1", // Attend le premier scroll avant de déclencher
           end: "+=1500", // Zone de pin assez longue pour couvrir l'animation de 4s
           toggleActions: "play none none none",
           pin: true,
           pinSpacing: true,
+          invalidateOnRefresh: true,
         },
       });
 
@@ -114,7 +125,12 @@ export default function CodeToDesign() {
       );
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      // Kill the specific ScrollTrigger first
+      ScrollTrigger.getById("code-to-design-pin")?.kill();
+      // Then revert the context
+      ctx.revert();
+    };
   }, []);
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useLayoutEffect, useEffect } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -11,6 +11,10 @@ import { GlowCircle } from "@/components/decorative";
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
+
+// Use useLayoutEffect on client, useEffect on server
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -27,7 +31,12 @@ export default function Hero() {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const cornerRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    if (!sectionRef.current) return;
+
+    // Kill any existing ScrollTriggers with our ID first
+    ScrollTrigger.getById("hero-pin")?.kill();
+
     const ctx = gsap.context(() => {
       // Set initial states (hidden)
       gsap.set(logoWatermarkRef.current, {
@@ -72,12 +81,14 @@ export default function Hero() {
       // Create cinematic timeline triggered on scroll
       const tl = gsap.timeline({
         scrollTrigger: {
+          id: "hero-pin",
           trigger: sectionRef.current,
           start: "top top-=1",
           end: "+=1800",
           toggleActions: "play none none none",
           pin: true,
           pinSpacing: true,
+          invalidateOnRefresh: true,
         },
       });
 
@@ -195,7 +206,12 @@ export default function Hero() {
       });
     }, sectionRef);
 
-    return () => ctx.revert();
+    return () => {
+      // Kill the specific ScrollTrigger first
+      ScrollTrigger.getById("hero-pin")?.kill();
+      // Then revert the context
+      ctx.revert();
+    };
   }, []);
 
   const handleScrollDown = () => {
@@ -217,7 +233,7 @@ export default function Hero() {
         className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-[10%] w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[800px] lg:h-[800px] pointer-events-none z-[1]"
       >
         <Image
-          src="/images/ACE-white-logo_notext.png"
+          src="/images/ACE-white-logo_notext.PNG"
           alt=""
           fill
           className="object-contain"
