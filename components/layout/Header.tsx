@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useScroll } from "@/lib/hooks";
@@ -64,6 +64,11 @@ export default function Header() {
   // Determine if we should use light (white) text
   const useLightText = isOverDarkSection && !isScrolled;
 
+  // Memoized close handler to prevent useEffect re-triggers in MobileMenu
+  const handleCloseMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen(false);
+  }, []);
+
   return (
     <>
       <header
@@ -116,14 +121,21 @@ export default function Header() {
 
             {/* Mobile Menu Button */}
             <button
+              type="button"
               onClick={() => setIsMobileMenuOpen(true)}
+              onTouchEnd={(e) => {
+                e.preventDefault();
+                setIsMobileMenuOpen(true);
+              }}
               className={cn(
-                "md:hidden p-2 transition-colors",
+                "md:hidden p-3 -mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center",
+                "transition-colors touch-manipulation",
                 useLightText
                   ? "text-white hover:text-[var(--theme-accent)]"
                   : "text-[var(--theme-text)] hover:text-[var(--theme-accent)]"
               )}
               aria-label="Ouvrir le menu"
+              aria-expanded={isMobileMenuOpen}
             >
               <svg
                 className="w-6 h-6"
@@ -146,7 +158,7 @@ export default function Header() {
       {/* Mobile Menu */}
       <MobileMenu
         isOpen={isMobileMenuOpen}
-        onClose={() => setIsMobileMenuOpen(false)}
+        onClose={handleCloseMobileMenu}
       />
     </>
   );
