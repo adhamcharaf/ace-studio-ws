@@ -5,10 +5,27 @@ import {
   ProjectGrid,
 } from "@/components/sections/portfolio";
 
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ace-studio-dev.com";
+
 export const metadata: Metadata = {
   title: "Réalisations",
   description:
-    "Découvrez nos créations et projets réalisés. Sites vitrines, identités digitales et projets ambitieux.",
+    "Portfolio ACE STUDIO : découvrez nos créations web à Abidjan. Sites vitrines, identités digitales et projets ambitieux réalisés en Côte d'Ivoire.",
+  keywords: [
+    "portfolio agence web Abidjan",
+    "réalisations sites web Côte d'Ivoire",
+    "exemples sites internet Abidjan",
+  ],
+  alternates: {
+    canonical: "/realisations",
+  },
+  openGraph: {
+    title: "Nos Réalisations | ACE STUDIO - Portfolio",
+    description:
+      "Découvrez nos créations : sites vitrines premium, identités digitales et projets ambitieux réalisés à Abidjan.",
+    url: `${baseUrl}/realisations`,
+    type: "website",
+  },
 };
 
 export default function RealisationsPage() {

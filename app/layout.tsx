@@ -7,6 +7,9 @@ import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/layout/WhatsAppButton";
 import ClientLayout from "@/components/layout/ClientLayout";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { JsonLd } from "@/components/seo/JsonLd";
+
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ace-studio-dev.com";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -28,20 +31,29 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: "ACE STUDIO | Création de sites web sur mesure",
+    default: "ACE STUDIO | Création de sites web sur mesure à Abidjan",
     template: "%s | ACE STUDIO",
   },
   description:
-    "Une présence digitale à votre image. Sites web premium, conçus sur mesure, sans templates. Abidjan, Côte d'Ivoire.",
+    "Agence web premium à Abidjan, Côte d'Ivoire. Création de sites web sur mesure, code custom, zéro template. Sites vitrines, projets ambitieux et identité digitale complète.",
   keywords: [
-    "création site web",
+    // Mots-clés principaux ciblés
+    "création site web Abidjan",
+    "agence web Côte d'Ivoire",
+    "site sur mesure Abidjan",
+    "développeur web Abidjan",
+    "site vitrine premium Côte d'Ivoire",
+    // Mots-clés secondaires
     "site web sur mesure",
-    "agence web Abidjan",
-    "design web premium",
+    "agence web premium",
+    "design web Abidjan",
     "développement web Côte d'Ivoire",
+    "site internet professionnel Abidjan",
+    "création site vitrine",
+    "identité digitale",
     "ACE STUDIO",
   ],
-  authors: [{ name: "ACE STUDIO" }],
+  authors: [{ name: "ACE STUDIO", url: baseUrl }],
   creator: "ACE STUDIO",
   publisher: "ACE STUDIO",
   formatDetection: {
@@ -49,26 +61,55 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://acestudio.ci"),
+  metadataBase: new URL(baseUrl),
+  alternates: {
+    canonical: "/",
+    languages: {
+      "fr-CI": "/",
+    },
+  },
   openGraph: {
-    title: "ACE STUDIO | Création de sites web sur mesure",
+    title: "ACE STUDIO | Création de sites web sur mesure à Abidjan",
     description:
-      "Une présence digitale à votre image. Sites web premium, conçus sur mesure, sans templates.",
-    url: "/",
+      "Une présence digitale à votre image. Sites web premium, conçus sur mesure, sans templates. Agence web à Abidjan, Côte d'Ivoire.",
+    url: baseUrl,
     siteName: "ACE STUDIO",
     locale: "fr_FR",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ACE STUDIO - Création de sites web sur mesure à Abidjan",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ACE STUDIO | Création de sites web sur mesure",
+    title: "ACE STUDIO | Création de sites web sur mesure à Abidjan",
     description:
-      "Une présence digitale à votre image. Sites web premium, conçus sur mesure, sans templates.",
+      "Une présence digitale à votre image. Sites web premium, conçus sur mesure, sans templates. Agence web à Abidjan, Côte d'Ivoire.",
+    images: ["/og-image.png"],
+    creator: "@acestudio",
   },
   robots: {
     index: true,
     follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
+  verification: {
+    // À compléter avec vos codes de vérification
+    // google: "votre-code-google",
+    // yandex: "votre-code-yandex",
+  },
+  category: "technology",
 };
 
 export default function RootLayout({
@@ -88,6 +129,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className="bg-[var(--theme-background)] text-[var(--theme-text)] antialiased transition-colors duration-300">
+        <JsonLd />
         <ThemeProvider>
           <ClientLayout>
             <Header />
