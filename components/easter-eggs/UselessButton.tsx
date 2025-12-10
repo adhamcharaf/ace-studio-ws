@@ -99,8 +99,15 @@ export default function UselessButton() {
       let newY = offset.y + moveY;
 
       // Limites du viewport
-      const margin = 30;
-      const maxX = window.innerWidth / 2 - margin;
+      const margin = 20;
+
+      // Calculer les limites X en fonction de la position réelle du bouton
+      // pour qu'il ne dépasse jamais les bords de l'écran
+      const btnOriginalLeft = rect.left - offset.x; // Position initiale sans offset
+      const btnOriginalRight = rect.right - offset.x;
+
+      const maxXLeft = -(btnOriginalLeft - margin); // Limite gauche (négatif)
+      const maxXRight = window.innerWidth - btnOriginalRight - margin; // Limite droite (positif)
 
       // Limiter Y vers le haut (viewport)
       const maxYUp = window.innerHeight / 2 - margin;
@@ -112,7 +119,7 @@ export default function UselessButton() {
         ? parentRect.bottom - rect.bottom - margin
         : window.innerHeight / 2 - margin;
 
-      newX = Math.max(-maxX, Math.min(maxX, newX));
+      newX = Math.max(maxXLeft, Math.min(maxXRight, newX));
       newY = Math.max(-maxYUp, Math.min(maxYDown, newY));
 
       setOffset({ x: newX, y: newY });
