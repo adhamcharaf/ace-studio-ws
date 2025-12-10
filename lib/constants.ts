@@ -5,7 +5,7 @@ export const SITE_CONFIG = {
   tagline: "Une présence digitale à votre image.",
   description: "Sites web premium, conçus sur mesure, sans templates.",
   location: "Abidjan, Côte d'Ivoire",
-  email: "contact@acestudio.ci",
+  email: "adhamch123@gmail.com",
   whatsappNumber: "2250747666667",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "https://acestudio.ci",
 } as const;
