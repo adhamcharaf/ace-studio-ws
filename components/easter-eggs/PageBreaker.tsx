@@ -278,6 +278,9 @@ export default function PageBreaker({ isActive, onReset }: PageBreakerProps) {
           // Skip elements inside the PageBreaker container (the overlay message)
           if (containerRef.current?.contains(element)) return;
 
+          // Skip elements marked to ignore (message overlay outside container)
+          if (element.closest('[data-pagebreaker-ignore]')) return;
+
           // Skip if parent is in the list (avoid duplicates)
           let parent = element.parentElement;
           while (parent) {
@@ -431,24 +434,55 @@ export default function PageBreaker({ isActive, onReset }: PageBreakerProps) {
   if (!isActive) return null;
 
   return (
-    <div
-      ref={containerRef}
-      className="fixed inset-0 z-[9997] overflow-hidden"
-      style={{ background: "transparent" }}
-    >
-
-
-      {/* Debris canvas */}
-      <canvas
-        ref={debrisCanvasRef}
-        width={typeof window !== "undefined" ? window.innerWidth : 1920}
-        height={typeof window !== "undefined" ? window.innerHeight : 1080}
-        className="absolute inset-0 z-[10002] pointer-events-none"
-      />
-
-      {/* Message Overlay */}
+    <>
+      {/* Conteneur Matter.js pour les éléments tombants */}
       <div
-        className="absolute inset-0 flex items-center justify-center pointer-events-none z-[10003]"
+        ref={containerRef}
+        className="fixed inset-0 z-[9997] overflow-hidden"
+        style={{ background: "transparent" }}
+      >
+        {/* Debris canvas */}
+        <canvas
+          ref={debrisCanvasRef}
+          width={typeof window !== "undefined" ? window.innerWidth : 1920}
+          height={typeof window !== "undefined" ? window.innerHeight : 1080}
+          className="absolute inset-0 z-[10002] pointer-events-none"
+        />
+
+        {/* Intense shake effect styles */}
+        <style jsx global>{`
+          .shake-effect-intense {
+            animation: shake-intense 0.4s ease-in-out;
+          }
+
+          @keyframes shake-intense {
+            0%, 100% { transform: translateX(0) translateY(0) rotate(0); }
+            10% { transform: translateX(-10px) translateY(-5px) rotate(-1deg); }
+            20% { transform: translateX(10px) translateY(5px) rotate(1deg); }
+            30% { transform: translateX(-15px) translateY(-3px) rotate(-2deg); }
+            40% { transform: translateX(15px) translateY(3px) rotate(2deg); }
+            50% { transform: translateX(-10px) translateY(-5px) rotate(-1deg); }
+            60% { transform: translateX(10px) translateY(5px) rotate(1deg); }
+            70% { transform: translateX(-8px) translateY(-2px) rotate(-0.5deg); }
+            80% { transform: translateX(8px) translateY(2px) rotate(0.5deg); }
+            90% { transform: translateX(-3px) translateY(-1px) rotate(0); }
+          }
+
+          .falling-element {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+          }
+
+          .falling-element:active {
+            cursor: grabbing;
+          }
+        `}</style>
+      </div>
+
+      {/* Message Overlay - EN DEHORS du conteneur Matter.js pour fonctionner sur mobile */}
+      <div
+        data-pagebreaker-ignore
+        className="fixed inset-0 flex items-center justify-center pointer-events-none z-[10003]"
         style={{
           opacity: phase === "fall" ? 1 : 0,
           transition: "opacity 0.5s ease-in-out",
@@ -474,35 +508,6 @@ export default function PageBreaker({ isActive, onReset }: PageBreakerProps) {
           </Button>
         </div>
       </div>
-
-      {/* Intense shake effect styles */}
-      <style jsx global>{`
-        .shake-effect-intense {
-          animation: shake-intense 0.4s ease-in-out;
-        }
-
-        @keyframes shake-intense {
-          0%, 100% { transform: translateX(0) translateY(0) rotate(0); }
-          10% { transform: translateX(-10px) translateY(-5px) rotate(-1deg); }
-          20% { transform: translateX(10px) translateY(5px) rotate(1deg); }
-          30% { transform: translateX(-15px) translateY(-3px) rotate(-2deg); }
-          40% { transform: translateX(15px) translateY(3px) rotate(2deg); }
-          50% { transform: translateX(-10px) translateY(-5px) rotate(-1deg); }
-          60% { transform: translateX(10px) translateY(5px) rotate(1deg); }
-          70% { transform: translateX(-8px) translateY(-2px) rotate(-0.5deg); }
-          80% { transform: translateX(8px) translateY(2px) rotate(0.5deg); }
-          90% { transform: translateX(-3px) translateY(-1px) rotate(0); }
-        }
-
-        .falling-element {
-          backface-visibility: hidden;
-          -webkit-backface-visibility: hidden;
-        }
-
-        .falling-element:active {
-          cursor: grabbing;
-        }
-      `}</style>
-    </div>
+    </>
   );
 }
