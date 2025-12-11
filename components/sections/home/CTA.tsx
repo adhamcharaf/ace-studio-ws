@@ -1,9 +1,13 @@
 "use client";
 
+import { useTranslations, useLocale } from 'next-intl';
 import { SectionWrapper } from "@/components/ui";
 import { Button } from "@/components/ui";
 
 export default function CTA() {
+  const t = useTranslations('cta');
+  const locale = useLocale();
+
   return (
     <SectionWrapper className="bg-gradient-dark relative overflow-hidden py-24 md:py-32">
       {/* Diagonal gold lines pattern */}
@@ -33,11 +37,11 @@ export default function CTA() {
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8 text-center relative z-10">
         <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 font-[var(--font-playfair)] text-[var(--ace-white)] drop-shadow-[0_0_30px_rgba(201,160,80,0.15)]">
-          Votre projet mérite mieux qu&apos;un template.
+          {t('title')}
         </h2>
 
-        <Button href="/contact" size="lg">
-          Parlons-en
+        <Button href={`/${locale}/contact`} size="lg">
+          {t('button')}
         </Button>
       </div>
     </SectionWrapper>

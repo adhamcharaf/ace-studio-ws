@@ -2,13 +2,16 @@
 
 import { useRef, useEffect } from "react";
 import Link from "next/link";
+import { useTranslations, useLocale } from 'next-intl';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { WHATSAPP_LINK } from "@/lib/constants";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ServicesCTA() {
+  const t = useTranslations('services.cta');
+  const locale = useLocale();
+
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLAnchorElement>(null);
@@ -95,7 +98,7 @@ export default function ServicesCTA() {
             {/* Main headline */}
             <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-6">
               <span className="text-3xl md:text-4xl lg:text-5xl font-bold font-[var(--font-playfair)] text-[var(--ace-white)]">
-                0% template
+                {t('noTemplate')}
               </span>
               <span className="hidden md:block text-[var(--ace-gold)] text-2xl">
                 &#9670;
@@ -104,23 +107,23 @@ export default function ServicesCTA() {
                 &#9670;
               </span>
               <span className="text-3xl md:text-4xl lg:text-5xl font-bold font-[var(--font-playfair)] text-[var(--ace-gold)]">
-                100% sur mesure
+                {t('custom')}
               </span>
             </div>
 
             {/* Subtext */}
             <p className="text-[var(--ace-gray)] text-lg md:text-xl max-w-2xl mx-auto">
-              Chaque projet est unique. Chaque site aussi.
+              {t('subtitle')}
             </p>
           </div>
 
           {/* CTA Button */}
           <Link
             ref={buttonRef}
-            href="/contact"
+            href={`/${locale}/contact`}
             className="group inline-flex items-center gap-3 px-8 py-4 bg-[var(--ace-gold)] text-[var(--ace-black)] font-semibold text-lg rounded-full transition-all duration-300 hover:bg-[var(--ace-white)] hover:shadow-[0_0_40px_rgba(201,160,80,0.4)] btn-premium"
           >
-            <span>Discutons de votre projet</span>
+            <span>{t('button')}</span>
             <svg
               className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
               fill="none"
@@ -138,7 +141,7 @@ export default function ServicesCTA() {
 
           {/* Small tagline under button */}
           <p className="mt-6 text-[var(--ace-gray)] text-sm">
-            Réponse en moins de 24h
+            {t('response')}
           </p>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SERVICES } from "@/lib/constants";
@@ -9,6 +10,9 @@ import { cn } from "@/lib/utils";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ArenaShowcase() {
+  const t = useTranslations('services.showcase');
+  const tCommon = useTranslations('common');
+
   const sectionRef = useRef<HTMLElement>(null);
   const videoContainerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -133,7 +137,7 @@ export default function ArenaShowcase() {
         {/* Section label */}
         <div className="text-center mb-8">
           <span className="inline-block text-[var(--ace-gold)] text-sm tracking-[0.3em] uppercase font-medium">
-            Notre Savoir-Faire
+            {t('label')}
           </span>
         </div>
 
@@ -175,7 +179,6 @@ export default function ArenaShowcase() {
                 muted
                 loop
                 playsInline
-                aria-label={`Démonstration du projet ${project.title} - ${project.description}`}
                 className={cn(
                   "w-full h-full object-cover transition-transform duration-700",
                   isHovered ? "scale-105" : "scale-100"
@@ -250,7 +253,7 @@ export default function ArenaShowcase() {
                     "group-hover:bg-white group-hover:shadow-lg"
                   )}
                 >
-                  <span>Visiter le site</span>
+                  <span>{tCommon('visitSite')}</span>
                   <svg
                     className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
                     fill="none"
@@ -272,7 +275,7 @@ export default function ArenaShowcase() {
 
         {/* Bottom caption */}
         <p className="text-center mt-8 text-white/40 text-sm tracking-wide">
-          Cliquez pour explorer le projet en direct
+          {t('hint')}
         </p>
       </div>
     </section>

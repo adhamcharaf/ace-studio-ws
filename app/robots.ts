@@ -1,17 +1,16 @@
-import { MetadataRoute } from "next";
+import { MetadataRoute } from 'next';
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ace-studio-dev.com";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://acestudio.ci';
 
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
-        userAgent: "*",
-        allow: "/",
-        disallow: ["/api/", "/_next/", "/admin/"],
+        userAgent: '*',
+        allow: '/',
+        disallow: ['/api/'],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,
-    host: baseUrl,
   };
 }

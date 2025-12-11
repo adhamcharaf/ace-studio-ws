@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { GlowCircle, DecorativeLine } from "@/components/decorative";
@@ -8,6 +9,7 @@ import { GlowCircle, DecorativeLine } from "@/components/decorative";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function StudioHero() {
+  const t = useTranslations('studio.hero');
   const containerRef = useRef<HTMLDivElement>(null);
   const line1Ref = useRef<HTMLDivElement>(null);
   const line2Ref = useRef<HTMLDivElement>(null);
@@ -140,7 +142,7 @@ export default function StudioHero() {
               textShadow: "0 0 80px rgba(201, 160, 80, 0.15)",
             }}
           >
-            {splitText("On en avait marre.")}
+            {splitText(t('line1'))}
           </h1>
         </div>
 
@@ -152,7 +154,7 @@ export default function StudioHero() {
               lineHeight: 1.4,
             }}
           >
-            {splitText("Marre des sites qui se ressemblent tous.")}
+            {splitText(t('line2'))}
           </p>
         </div>
       </div>
@@ -160,7 +162,7 @@ export default function StudioHero() {
       {/* Scroll indicator */}
       <div className="absolute bottom-12 left-1/2 -translate-x-1/2">
         <div className="flex flex-col items-center gap-2 text-[var(--theme-text-muted)]">
-          <span className="text-xs uppercase tracking-[0.3em]">Scroll</span>
+          <span className="text-xs uppercase tracking-[0.3em]">{t('scroll')}</span>
           <div className="w-px h-12 bg-gradient-to-b from-[var(--ace-gold)] to-transparent animate-pulse" />
         </div>
       </div>

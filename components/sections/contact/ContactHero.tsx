@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import { lerp } from "@/lib/utils";
 import { GlowCircle, DecorativeLine } from "@/components/decorative";
 import TextScramble from "@/components/ui/TextScramble";
 
 export default function ContactHero() {
+  const t = useTranslations('contact.hero');
   const containerRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
@@ -152,7 +154,7 @@ export default function ContactHero() {
         {/* Main Title with Scramble Effect */}
         <h1 className="text-6xl md:text-8xl lg:text-9xl font-bold mb-6 font-[var(--font-playfair)] text-[var(--theme-text)]">
           <TextScramble
-            text="Parlons."
+            text={t('title')}
             delay={300}
             duration={1200}
             onComplete={() => setTitleComplete(true)}
@@ -164,7 +166,7 @@ export default function ContactHero() {
           ref={subtitleRef}
           className="text-xl md:text-2xl lg:text-3xl text-[var(--theme-text-muted)] max-w-2xl mx-auto opacity-0 translate-y-5"
         >
-          Votre projet mérite mieux qu&apos;un template.
+          {t('subtitle')}
         </p>
       </div>
 

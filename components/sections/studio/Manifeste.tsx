@@ -1,33 +1,23 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const MANIFESTE_LINES = [
-  {
-    text: "Chaque site qu'on crée est une pièce unique.",
-    accent: "pièce unique",
-  },
-  {
-    text: "Pas de template. Pas de raccourci.",
-    accent: "Pas de",
-  },
-  {
-    text: "Votre site mérite mieux — et vous le savez.",
-    accent: "mérite mieux",
-  },
-  {
-    text: "C'est pour ça que vous êtes ici.",
-    accent: "vous êtes ici",
-  },
-];
+interface ManifesteLine {
+  text: string;
+  accent: string;
+}
 
 export default function Manifeste() {
+  const t = useTranslations('studio');
   const containerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
+
+  const manifesteLines = t.raw('manifeste') as ManifesteLine[];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -109,7 +99,7 @@ export default function Manifeste() {
       <div className="container mx-auto px-4 md:px-6 lg:px-8">
         {/* Cards container */}
         <div className="max-w-4xl mx-auto space-y-12 md:space-y-16">
-          {MANIFESTE_LINES.map((line, index) => (
+          {manifesteLines.map((line, index) => (
             <div
               key={index}
               ref={(el) => { cardsRef.current[index] = el; }}

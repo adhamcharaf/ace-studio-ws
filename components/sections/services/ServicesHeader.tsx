@@ -1,10 +1,14 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import { GlowCircle } from "@/components/decorative";
 
 export default function ServicesHeader() {
+  const t = useTranslations('services.header');
+  const tCommon = useTranslations('common');
+
   const sectionRef = useRef<HTMLElement>(null);
   const smallTextRef = useRef<HTMLSpanElement>(null);
   const mainTitleRef = useRef<HTMLHeadingElement>(null);
@@ -111,7 +115,7 @@ export default function ServicesHeader() {
             ref={smallTextRef}
             className="block text-[var(--ace-gold)] text-sm md:text-base tracking-[0.3em] uppercase mb-4 md:mb-6"
           >
-            Ce qu&apos;on fait de mieux
+            {t('accent')}
           </span>
 
           {/* Massive title */}
@@ -119,7 +123,7 @@ export default function ServicesHeader() {
             ref={mainTitleRef}
             className="text-massive font-bold font-[var(--font-playfair)] text-[var(--theme-text)] leading-none mb-6 md:mb-8"
           >
-            Services
+            {t('title')}
           </h1>
 
           {/* Tagline with gold accent */}
@@ -127,11 +131,13 @@ export default function ServicesHeader() {
             ref={taglineRef}
             className="text-xl md:text-2xl lg:text-3xl text-[var(--theme-text-muted)] max-w-xl"
           >
-            Des sites qui{" "}
-            <span className="text-[var(--ace-gold)] italic font-[var(--font-playfair)]">
-              travaillent
-            </span>{" "}
-            pour vous.
+            {t.rich('tagline', {
+              accent: (chunks) => (
+                <span className="text-[var(--ace-gold)] italic font-[var(--font-playfair)]">
+                  {chunks}
+                </span>
+              )
+            })}
           </p>
         </div>
       </div>
@@ -143,7 +149,7 @@ export default function ServicesHeader() {
         onClick={handleScrollDown}
       >
         <span className="text-[var(--ace-gray)] text-xs tracking-widest uppercase group-hover:text-[var(--ace-gold)] transition-colors">
-          Découvrir
+          {tCommon('discover')}
         </span>
         <div className="scroll-indicator">
           <svg

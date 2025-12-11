@@ -1,10 +1,24 @@
 "use client";
 
-import { SITE_CONFIG, getTimeGreeting } from "@/lib/constants";
+import { useTranslations } from 'next-intl';
+import { SITE_CONFIG } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 export default function QuickInfoCard() {
-  const greeting = getTimeGreeting();
+  const t = useTranslations('contact.quickInfo');
+  const tTime = useTranslations('timeGreetings');
+
+  // Get time-based greeting
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return tTime('morning');
+    if (hour >= 12 && hour < 14) return tTime('lunch');
+    if (hour >= 14 && hour < 18) return tTime('afternoon');
+    if (hour >= 18 && hour < 22) return tTime('evening');
+    return tTime('night');
+  };
+
+  const greeting = getGreeting();
 
   return (
     <div className="bento-card lg:col-span-1 lg:row-span-1">
@@ -23,7 +37,7 @@ export default function QuickInfoCard() {
 
         <div>
           <h3 className="text-xl md:text-2xl font-bold mb-6 font-[var(--font-playfair)] text-[var(--theme-text)]">
-            Infos Rapides
+            {t('title')}
           </h3>
 
           <div className="space-y-4">
@@ -52,7 +66,7 @@ export default function QuickInfoCard() {
               </div>
               <div>
                 <p className="text-xs text-[var(--theme-text-muted)] uppercase tracking-wider mb-0.5">
-                  Localisation
+                  {t('location')}
                 </p>
                 <p className="text-[var(--theme-text)] font-medium">
                   {SITE_CONFIG.location}
@@ -79,7 +93,7 @@ export default function QuickInfoCard() {
               </div>
               <div>
                 <p className="text-xs text-[var(--theme-text-muted)] uppercase tracking-wider mb-0.5">
-                  Email
+                  {t('email')}
                 </p>
                 <a
                   href={`mailto:${SITE_CONFIG.email}`}

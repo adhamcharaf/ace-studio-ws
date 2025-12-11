@@ -1,0 +1,364 @@
+{
+  "metadata": {
+    "siteName": "ACE STUDIO",
+    "title": "ACE STUDIO | Création de sites web sur mesure",
+    "description": "Une présence digitale à votre image. Sites web premium, conçus sur mesure, sans templates. Abidjan, Côte d'Ivoire.",
+    "keywords": ["création site web", "site web sur mesure", "agence web Abidjan", "design web premium", "développement web Côte d'Ivoire", "ACE STUDIO"]
+  },
+  "navigation": {
+    "home": "Accueil",
+    "studio": "Le Studio",
+    "services": "Services",
+    "portfolio": "Réalisations",
+    "contact": "Contact"
+  },
+  "common": {
+    "discover": "Découvrir",
+    "contactUs": "Nous contacter",
+    "backToHome": "Retour à l'accueil",
+    "continue": "Continuer",
+    "back": "Retour",
+    "send": "Envoyer",
+    "learnMore": "En savoir plus",
+    "viewProject": "Voir le projet",
+    "visitSite": "Visiter le site",
+    "popular": "Populaire",
+    "comingSoon": "Disponible prochainement",
+    "andMore": "et plus encore",
+    "scroll": "scroll",
+    "example": "Exemple"
+  },
+  "siteConfig": {
+    "tagline": "Une présence digitale à votre image.",
+    "description": "Sites web premium, conçus sur mesure, sans templates.",
+    "location": "Abidjan, Côte d'Ivoire"
+  },
+  "hero": {
+    "accent": "Agence de création digitale",
+    "title": "ACE STUDIO",
+    "tagline": "Des expériences digitales qui <accent>marquent</accent> les esprits.",
+    "cta": "Discutons de votre projet"
+  },
+  "stats": {
+    "coffee": {
+      "value": 500,
+      "suffix": "+",
+      "label": "tasses de café"
+    },
+    "custom": {
+      "value": 100,
+      "suffix": "%",
+      "label": "sur mesure"
+    },
+    "response": {
+      "value": 24,
+      "suffix": "h",
+      "label": "temps de réponse"
+    }
+  },
+  "valueProposition": {
+    "title": "Des sites <strikethrough>templates</strikethrough> sur mesure.",
+    "line1": "Chaque pixel est pensé. Chaque ligne de code est écrite pour vous.",
+    "line2": "Pas de frameworks génériques. Pas de copier-coller.",
+    "line3": "Une création unique, à votre image."
+  },
+  "servicesPreview": {
+    "title": "Ce qu'on crée :",
+    "cta": "Voir tous les services"
+  },
+  "testimonial": {
+    "label": "Témoignage",
+    "quote": "ACE STUDIO a transformé notre vision en réalité. Le site d'Arena reflète parfaitement l'excellence et le prestige de notre complexe sportif. Un travail sur mesure, une équipe à l'écoute, un résultat qui dépasse nos attentes.",
+    "author": "Direction",
+    "company": "Arena Club-Sport & Events",
+    "location": "Grand-Bassam"
+  },
+  "portfolioPreview": {
+    "label": "Réalisation",
+    "title": "Ce qu'on a créé",
+    "cta": "Visiter le site",
+    "hint": "Cliquez pour explorer le projet en direct"
+  },
+  "services": {
+    "header": {
+      "accent": "Ce qu'on fait de mieux",
+      "title": "Services",
+      "tagline": "Des sites qui <accent>travaillent</accent> pour vous.",
+      "taglinePlain": "Des sites qui travaillent pour vous."
+    },
+    "offers": {
+      "title": "Nos Offres",
+      "subtitle": "Une solution pour chaque besoin, toujours sur mesure."
+    },
+    "vitrine": {
+      "id": "site-vitrine",
+      "title": "Site Vitrine",
+      "subtitle": "Votre vitrine professionnelle",
+      "description": "Parfait pour entrepreneurs, indépendants et PME.",
+      "features": ["Design sur mesure", "Responsive (mobile, tablette, desktop)", "Optimisé performance", "Livraison rapide"]
+    },
+    "ambitieux": {
+      "id": "projet-ambitieux",
+      "title": "Projet Ambitieux",
+      "subtitle": "Pour les projets qui voient grand",
+      "description": "Parfait pour entreprises établies et projets complexes.",
+      "features": ["Fonctionnalités avancées", "Architecture évolutive", "Accompagnement approfondi", "Sur devis"],
+      "comingSoon": "Projets complexes en cours...",
+      "badge": "Bientôt"
+    },
+    "identite": {
+      "id": "identite-digitale",
+      "title": "Identité Digitale",
+      "subtitle": "Plus qu'un site, une identité",
+      "description": "Parfait pour ceux qui partent de zéro.",
+      "features": ["Logo et charte graphique", "Site web assorti", "Cohérence visuelle", "Pack complet"],
+      "comingSoon": "Identités en création...",
+      "badge": "En préparation"
+    },
+    "codeToDesign": {
+      "philosophy": "< Notre philosophie />",
+      "title": "Du code",
+      "titleAccent": "naît l'art.",
+      "description1": "Chaque ligne écrite avec intention.",
+      "description2": "Chaque pixel placé avec précision.",
+      "codeSnippet": {
+        "vision": "Votre vision",
+        "digital": "digitale",
+        "design": "Design sur mesure",
+        "code": "Code optimisé",
+        "experience": "Expérience unique",
+        "template": "0% template",
+        "creation": "100% création"
+      }
+    },
+    "comparison": {
+      "title": "Template vs ACE STUDIO",
+      "templateHeader": "Template",
+      "aceHeader": "ACE STUDIO"
+    },
+    "showcase": {
+      "label": "Notre Savoir-Faire",
+      "hint": "Cliquez pour explorer le projet en direct"
+    },
+    "cta": {
+      "noTemplate": "0% template",
+      "custom": "100% sur mesure",
+      "subtitle": "Chaque projet est unique. Chaque site aussi.",
+      "button": "Discutons de votre projet",
+      "response": "Réponse en moins de 24h"
+    },
+    "quality": {
+      "top": "0% template",
+      "bottom": "100% sur mesure"
+    }
+  },
+  "values": {
+    "creativity": {
+      "title": "Créativité",
+      "description": "Chaque site est une création, jamais un copier-coller."
+    },
+    "fidelity": {
+      "title": "Fidélité",
+      "description": "Relation de confiance, accompagnement durable."
+    },
+    "modernity": {
+      "title": "Modernité",
+      "description": "Standards actuels, design contemporain."
+    }
+  },
+  "comparison": {
+    "template": ["Design générique", "Code surchargé", "Comme 10 000 autres", "Limité", "Support inexistant"],
+    "aceStudio": ["Design unique", "Code optimisé", "Comme personne", "Évolutif", "Accompagnement réel"]
+  },
+  "footer": {
+    "cta": {
+      "title": "Tu scrolles encore ?",
+      "subtitle": "Discutons de ton projet.",
+      "button": "Prendre contact"
+    },
+    "madeWith": "Fait avec <coffee>du café</coffee> et <templates>0 templates</templates>",
+    "timePrefix": "Il est",
+    "copyright": "ACE STUDIO"
+  },
+  "timeGreetings": {
+    "morning": "Bonne matinée !",
+    "lunch": "Bon appétit !",
+    "afternoon": "Bonne après-midi !",
+    "evening": "Bonne soirée !",
+    "night": "Tu travailles tard toi aussi ?"
+  },
+  "contact": {
+    "hero": {
+      "title": "Parlons.",
+      "subtitle": "Votre projet mérite mieux qu'un template."
+    },
+    "header": {
+      "title": "Contact",
+      "subtitle": "Discutons de votre projet."
+    },
+    "form": {
+      "steps": {
+        "1": { "title": "Qui êtes-vous ?", "subtitle": "Faisons connaissance" },
+        "2": { "title": "Votre projet", "subtitle": "Parlez-nous de vos ambitions" },
+        "3": { "title": "Dites-nous tout", "subtitle": "Les détails qui comptent" }
+      },
+      "fields": {
+        "name": "Votre nom",
+        "email": "Votre email",
+        "projectType": "Type de projet",
+        "budget": "Budget (optionnel)",
+        "message": "Votre message"
+      },
+      "placeholders": {
+        "name": "Batman, Beyoncé, ou votre vrai nom",
+        "email": "celui que vous checkez vraiment",
+        "message": "Dites-nous tout. On ne juge pas. (Sauf les sites Wix.)"
+      },
+      "errors": {
+        "emailInvalid": "Hmm, ce mail a l'air aussi faux qu'un template WordPress",
+        "fieldEmpty": "Ce champ se sent un peu seul...",
+        "messageTooShort": "Allez, un petit effort ! Minimum 10 caractères."
+      },
+      "loading": ["Envoi en cours...", "On réveille le serveur...", "Préparation de votre réponse sur mesure..."],
+      "errorMessage": "Oups ! Une erreur s'est produite. Réessayez ou contactez-nous sur WhatsApp.",
+      "hoverTooltip": "Allez, on y croit !",
+      "success": {
+        "title": "Message envoyé !",
+        "morning": "Message envoyé ! On attaque ça avec notre café.",
+        "afternoon": "Reçu ! On s'y met entre deux lignes de code.",
+        "evening": "Envoyé ! On répond demain, promis. (Ou ce soir si on n'a pas de vie.)",
+        "night": "Un message à cette heure ? On s'entend déjà bien."
+      }
+    },
+    "projectTypes": {
+      "site-vitrine": "Site Vitrine",
+      "projet-ambitieux": "Projet Ambitieux",
+      "identite-digitale": "Identité Digitale",
+      "autre": "Autre"
+    },
+    "budgetOptions": {
+      "a-definir": "À définir",
+      "less-500k": "< 500 000 FCFA",
+      "500k-1m": "500 000 - 1 000 000 FCFA",
+      "1m-2m": "1 000 000 - 2 000 000 FCFA",
+      "more-2m": "> 2 000 000 FCFA"
+    },
+    "whatsapp": {
+      "title": "WhatsApp",
+      "subtitle": "La voie rapide pour discuter",
+      "badgeDefault": "Reponse en 24h",
+      "badgeHover": "Plus rapide qu'un devis sur Fiverr",
+      "button": "Discuter",
+      "easterEgg": "Tu hesites ? On mord pas. Enfin, pas fort. 😬",
+      "defaultMessage": "Bonjour ACE STUDIO, je souhaite discuter de mon projet."
+    },
+    "quickInfo": {
+      "title": "Infos Rapides",
+      "email": "Email",
+      "location": "Localisation"
+    },
+    "uselessMessage": "Puisque t'as du temps, autant qu'on parle de ton projet",
+    "uselessButton": {
+      "stages": [
+        "Ce bouton ne fait rien",
+        "Tu perds ton temps",
+        "Sérieusement ?",
+        "T'as que ça à faire ?",
+        "Je peux faire ça toute la journée",
+        "Tu lâches jamais toi",
+        "...",
+        "Bon...",
+        "Ok t'as gagné"
+      ],
+      "loading": "Chargement..."
+    }
+  },
+  "studio": {
+    "hero": {
+      "line1": "On en avait marre.",
+      "line2": "Marre des sites qui se ressemblent tous.",
+      "scroll": "Scroll"
+    },
+    "manifeste": [
+      { "text": "Chaque site qu'on crée est une pièce unique.", "accent": "pièce unique" },
+      { "text": "Pas de template. Pas de raccourci.", "accent": "Pas de" },
+      { "text": "Votre site mérite mieux — et vous le savez.", "accent": "mérite mieux" },
+      { "text": "C'est pour ça que vous êtes ici.", "accent": "vous êtes ici" }
+    ],
+    "adn": {
+      "intro": "Notre recette ?",
+      "introAccent": "Pas de recette.",
+      "subtitle": "Juste trois ingrédients qu'on refuse de négocier :",
+      "values": {
+        "creativite": { "title": "Créativité", "description": "Chaque pixel a une raison d'être." },
+        "exigence": { "title": "Exigence", "description": "Le bon n'est jamais assez bon." },
+        "modernite": { "title": "Modernité", "description": "Les standards d'aujourd'hui, pas d'hier." }
+      },
+      "percentage": "100%"
+    },
+    "methode": {
+      "title": "Notre méthode",
+      "subtitle": "Simple, transparente, efficace.",
+      "steps": [
+        {
+          "number": "01",
+          "title": "Brief",
+          "description": "On écoute. Vraiment.",
+          "detail": "Pas de questionnaire générique. Une vraie conversation pour comprendre votre vision."
+        },
+        {
+          "number": "02",
+          "title": "Direction",
+          "description": "On explore. Ensemble.",
+          "detail": "Exemples, références, échanges. On définit le style avant de coder."
+        },
+        {
+          "number": "03",
+          "title": "Code",
+          "description": "On construit. Sans raccourcis.",
+          "detail": "Du code propre, optimisé, fait pour durer et évoluer."
+        },
+        {
+          "number": "04",
+          "title": "Launch",
+          "description": "On livre. Et on reste là.",
+          "detail": "Mise en ligne, tests, ajustements. Et un support réactif après."
+        }
+      ]
+    },
+    "personality": {
+      "title": "ACE STUDIO, c'est...",
+      "description1": "Un studio <passionate>passionné</passionate>, <creative>créatif</creative>, sérieux mais <neverBoring>jamais ennuyeux</neverBoring>.",
+      "description2": "Une énergie positive, un œil pour le beau, une exigence pour le travail bien fait."
+    }
+  },
+  "cta": {
+    "title": "Votre projet mérite mieux qu'un template.",
+    "button": "Parlons-en"
+  },
+  "notFound": {
+    "title": "404",
+    "message": "Cette page a disparu comme un tour de magie.",
+    "bonus": "Tu attends quoi ? Le lapin blanc ?"
+  },
+  "portfolio": {
+    "header": {
+      "title": "Réalisations",
+      "subtitle": "Ce qu'on a créé pour d'autres."
+    },
+    "arena": {
+      "title": "Arena",
+      "category": "Site Vitrine",
+      "description": "Complexe sportif premium à Abidjan. Design moderne avec mode sombre/clair."
+    },
+    "viewProject": "Voir le projet",
+    "comingSoon": "Plus de projets bientôt..."
+  },
+  "accessibility": {
+    "backToHome": "Retour à l'accueil",
+    "openMenu": "Ouvrir le menu",
+    "closeMenu": "Fermer le menu",
+    "switchLanguage": "Changer de langue",
+    "contactWhatsApp": "Contacter sur WhatsApp"
+  }
+}

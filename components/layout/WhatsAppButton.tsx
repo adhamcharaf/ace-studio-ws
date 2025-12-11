@@ -1,9 +1,11 @@
 "use client";
 
+import { useTranslations } from 'next-intl';
 import { WHATSAPP_LINK } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 export default function WhatsAppButton() {
+  const t = useTranslations('accessibility');
   return (
     <a
       href={WHATSAPP_LINK}
@@ -19,7 +21,7 @@ export default function WhatsAppButton() {
         "transform hover:scale-110 transition-all duration-200",
         "animate-pulse-slow"
       )}
-      aria-label="Contacter sur WhatsApp"
+      aria-label={t('contactWhatsApp')}
     >
       <svg
         className="w-7 h-7"

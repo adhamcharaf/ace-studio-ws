@@ -1,10 +1,14 @@
 "use client";
 
+import { useTranslations } from 'next-intl';
 import { useScrollAnimation } from "@/lib/hooks";
 import { SERVICES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 export default function OfferCards() {
+  const t = useTranslations('services');
+  const tCommon = useTranslations('common');
+
   return (
     <section className="relative py-16 md:py-24 bg-gradient-radial-warm overflow-hidden">
       {/* Noise texture */}
@@ -18,9 +22,9 @@ export default function OfferCards() {
           {SERVICES.map((service, index) => (
             <OfferCard
               key={service.id}
-              service={service}
+              serviceId={service.id}
               isReversed={index % 2 !== 0}
-              isPopular={index === 1}
+              isPopular={index === 0}
             />
           ))}
         </div>
@@ -30,13 +34,24 @@ export default function OfferCards() {
 }
 
 interface OfferCardProps {
-  service: (typeof SERVICES)[number];
+  serviceId: string;
   isReversed: boolean;
   isPopular?: boolean;
 }
 
-function OfferCard({ service, isReversed, isPopular }: OfferCardProps) {
+function OfferCard({ serviceId, isReversed, isPopular }: OfferCardProps) {
+  const t = useTranslations('services');
+  const tCommon = useTranslations('common');
   const ref = useScrollAnimation("slide-up");
+
+  // Map serviceId to translation key
+  const keyMap: Record<string, string> = {
+    'site-vitrine': 'vitrine',
+    'projet-ambitieux': 'ambitieux',
+    'identite-digitale': 'identite',
+  };
+
+  const translationKey = keyMap[serviceId] || 'vitrine';
 
   return (
     <div
@@ -52,20 +67,20 @@ function OfferCard({ service, isReversed, isPopular }: OfferCardProps) {
       {/* Popular badge */}
       {isPopular && (
         <div className="absolute -top-3 left-8 bg-[var(--ace-gold)] text-[var(--ace-black)] px-4 py-1 rounded-full text-sm font-semibold shadow-[0_4px_15px_rgba(201,160,80,0.4)]">
-          POPULAIRE
+          {tCommon('popular').toUpperCase()}
         </div>
       )}
 
       {/* Content */}
       <div className={cn(isReversed && "lg:order-2")}>
         <h3 className="text-3xl md:text-4xl font-bold mb-4 font-[var(--font-playfair)] text-[var(--ace-black)]">
-          {service.title}
+          {t(`${translationKey}.title`)}
         </h3>
-        <p className="text-xl text-[var(--ace-gold)] mb-6">{service.subtitle}</p>
-        <p className="text-[var(--ace-gray)] mb-8">{service.description}</p>
+        <p className="text-xl text-[var(--ace-gold)] mb-6">{t(`${translationKey}.subtitle`)}</p>
+        <p className="text-[var(--ace-gray)] mb-8">{t(`${translationKey}.description`)}</p>
 
         <ul className="space-y-3">
-          {service.features.map((feature, i) => (
+          {(t.raw(`${translationKey}.features`) as string[]).map((feature: string, i: number) => (
             <li key={i} className="flex items-center gap-3">
               <svg
                 className="w-5 h-5 text-[var(--ace-gold)] flex-shrink-0"
@@ -106,7 +121,7 @@ function OfferCard({ service, isReversed, isPopular }: OfferCardProps) {
               d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
             />
           </svg>
-          <p className="text-sm">Mockup {service.title}</p>
+          <p className="text-sm">Mockup {t(`${translationKey}.title`)}</p>
         </div>
       </div>
     </div>

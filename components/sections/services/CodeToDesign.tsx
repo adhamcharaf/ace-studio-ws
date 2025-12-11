@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useLayoutEffect, useState } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -13,27 +14,10 @@ const useIsomorphicLayoutEffect =
 // Nombre de lignes dans le snippet de code
 const CODE_LINES = 19;
 
-const CODE_SNIPPET = `<section class="ace-studio">
-  <header>
-    <h1>Votre vision</h1>
-    <span class="accent">digitale</span>
-  </header>
-
-  <main>
-    <article class="craft">
-      <p>Design sur mesure</p>
-      <p>Code optimisé</p>
-      <p>Expérience unique</p>
-    </article>
-  </main>
-
-  <footer>
-    <!-- 0% template -->
-    <!-- 100% création -->
-  </footer>
-</section>`;
-
 export default function CodeToDesign() {
+  const t = useTranslations('services.codeToDesign');
+  const tCommon = useTranslations('common');
+
   const sectionRef = useRef<HTMLElement>(null);
   const codeRef = useRef<HTMLDivElement>(null);
   const designRef = useRef<HTMLDivElement>(null);
@@ -43,6 +27,27 @@ export default function CodeToDesign() {
   const [lineOpacities, setLineOpacities] = useState<number[]>(
     () => Array(CODE_LINES).fill(0.7) // Valeur par défaut stable pour le SSR
   );
+
+  // Build code snippet dynamically with translations
+  const codeSnippet = `<section class="ace-studio">
+  <header>
+    <h1>${t('codeSnippet.vision')}</h1>
+    <span class="accent">${t('codeSnippet.digital')}</span>
+  </header>
+
+  <main>
+    <article class="craft">
+      <p>${t('codeSnippet.design')}</p>
+      <p>${t('codeSnippet.code')}</p>
+      <p>${t('codeSnippet.experience')}</p>
+    </article>
+  </main>
+
+  <footer>
+    <!-- ${t('codeSnippet.template')} -->
+    <!-- ${t('codeSnippet.creation')} -->
+  </footer>
+</section>`;
 
   useEffect(() => {
     // Générer des opacités aléatoires uniquement côté client
@@ -167,7 +172,7 @@ export default function CodeToDesign() {
         >
           <pre className="text-[var(--ace-gold)]/70 text-xs sm:text-sm md:text-base lg:text-lg font-mono leading-relaxed max-w-3xl text-left">
             <code>
-              {CODE_SNIPPET.split("\n").map((line, i) => (
+              {codeSnippet.split("\n").map((line, i) => (
                 <span
                   key={i}
                   className="block"
@@ -219,17 +224,17 @@ export default function CodeToDesign() {
           {/* Main headline */}
           <div className="text-center px-4">
             <span className="block text-[var(--ace-gold)]/60 text-sm md:text-base tracking-[0.3em] uppercase mb-4 font-mono">
-              {"< Notre philosophie />"}
+              {t('philosophy')}
             </span>
             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-[var(--font-playfair)] text-[var(--ace-white)] leading-tight mb-6">
-              Du code
+              {t('title')}
               <br />
-              <span className="text-[var(--ace-gold)]">naît l&apos;art.</span>
+              <span className="text-[var(--ace-gold)]">{t('titleAccent')}</span>
             </h2>
             <p className="text-[var(--ace-gray)] text-lg md:text-xl max-w-xl mx-auto">
-              Chaque ligne écrite avec intention.
+              {t('description1')}
               <br />
-              Chaque pixel placé avec précision.
+              {t('description2')}
             </p>
           </div>
 
@@ -237,7 +242,7 @@ export default function CodeToDesign() {
           <div className="absolute bottom-16 left-1/2 -translate-x-1/2 flex items-center gap-4">
             <div className="w-12 h-px bg-gradient-to-r from-transparent to-[var(--ace-gold)]/50" />
             <span className="text-[var(--ace-gold)]/40 text-xs font-mono">
-              scroll
+              {tCommon('scroll')}
             </span>
             <div className="w-12 h-px bg-gradient-to-l from-transparent to-[var(--ace-gold)]/50" />
           </div>

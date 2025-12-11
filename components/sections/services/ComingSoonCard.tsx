@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
@@ -11,7 +12,7 @@ interface ComingSoonCardProps {
   title: string;
   subtitle: string;
   description: string;
-  features: readonly string[];
+  features: readonly string[] | string[];
   badge: string;
   teaser: string;
   className?: string;
@@ -27,6 +28,7 @@ export default function ComingSoonCard({
   className,
   delay = 0,
 }: ComingSoonCardProps) {
+  const t = useTranslations('common');
   const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -116,7 +118,7 @@ export default function ComingSoonCard({
                   ...
                 </span>
                 <span className="text-sm italic">
-                  et plus encore
+                  {t('andMore')}
                 </span>
               </li>
             )}
@@ -139,7 +141,7 @@ export default function ComingSoonCard({
                 d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"
               />
             </svg>
-            <span>Disponible prochainement</span>
+            <span>{t('comingSoon')}</span>
           </div>
         </div>
       </div>

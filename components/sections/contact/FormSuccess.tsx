@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { getSuccessMessage } from "@/lib/constants";
+import { useTranslations } from 'next-intl';
 import { cn } from "@/lib/utils";
 
 interface Particle {
@@ -26,11 +26,22 @@ const COLORS = ["#C9A050", "#D4B36A", "#E5C97A", "#FFD700"];
 const PARTICLE_COUNT = 80;
 
 export default function FormSuccess({ isVisible, onReset }: FormSuccessProps) {
+  const t = useTranslations('contact.form.success');
+  const tCommon = useTranslations('common');
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const animationRef = useRef<number>(0);
   const [showContent, setShowContent] = useState(false);
   const [checkmarkProgress, setCheckmarkProgress] = useState(0);
+
+  // Get time-based success message
+  const getSuccessMessage = () => {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 12) return t('morning');
+    if (hour >= 12 && hour < 18) return t('afternoon');
+    if (hour >= 18 && hour < 23) return t('evening');
+    return t('night');
+  };
 
   const successMessage = getSuccessMessage();
 
@@ -253,7 +264,7 @@ export default function FormSuccess({ isVisible, onReset }: FormSuccessProps) {
           )}
         >
           <h2 className="text-3xl md:text-4xl font-bold font-[var(--font-playfair)] text-[var(--theme-text)] mb-4">
-            Message envoye !
+            {t('title')}
           </h2>
 
           <p className="text-lg text-[var(--theme-text-muted)] mb-8 max-w-md mx-auto">
@@ -271,7 +282,7 @@ export default function FormSuccess({ isVisible, onReset }: FormSuccessProps) {
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            Retour
+            {tCommon('back')}
           </button>
         </div>
       </div>

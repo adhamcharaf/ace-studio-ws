@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from 'next-intl';
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types";
 
@@ -8,6 +9,7 @@ interface ProjectCardProps {
 }
 
 export default function ProjectCard({ project }: ProjectCardProps) {
+  const t = useTranslations('portfolio');
   return (
     <a
       href={project.href}
@@ -44,7 +46,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           )}
         >
           <span className="text-[var(--ace-white)] font-medium flex items-center gap-2">
-            Voir le projet
+            {t('viewProject')}
             <svg
               className="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
               fill="none"

@@ -1,48 +1,25 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations, useLocale } from "next-intl";
 import { cn } from "@/lib/utils";
 import { wait } from "@/lib/utils";
 
 // Configuration
 const DETECTION_RADIUS = 150;
 const THROTTLE_MS = 50;
+const STAGE_DISTANCE = 300;
 
-// Messages évolutifs - vitesse constante jusqu'à l'abandon
-const STAGES = [
-  { text: "Ce bouton ne fait rien", distance: 300 },
-  { text: "Ce bouton ne fait rien", distance: 300 },
-  { text: "Ce bouton ne fait rien", distance: 300 },
-  { text: "Tu perds ton temps", distance: 300 },
-  { text: "Tu perds ton temps", distance: 300 },
-  { text: "Tu perds ton temps", distance: 300 },
-  { text: "Sérieusement ?", distance: 300 },
-  { text: "Sérieusement ?", distance: 300 },
-  { text: "Sérieusement ?", distance: 300 },
-  { text: "T'as que ça à faire ?", distance: 300 },
-  { text: "T'as que ça à faire ?", distance: 300 },
-  { text: "T'as que ça à faire ?", distance: 300 },
-  { text: "Je peux faire ça toute la journée", distance: 300 },
-  { text: "Je peux faire ça toute la journée", distance: 300 },
-  { text: "Je peux faire ça toute la journée", distance: 300 },
-  { text: "Tu lâches jamais toi", distance: 300 },
-  { text: "Tu lâches jamais toi", distance: 300 },
-  { text: "Tu lâches jamais toi", distance: 300 },
-  { text: "...", distance: 300 },
-  { text: "...", distance: 300 },
-  { text: "...", distance: 300 },
-  { text: "Bon...", distance: 300 },
-  { text: "Bon...", distance: 300 },
-  { text: "Bon...", distance: 300 },
-  { text: "Ok t'as gagné", distance: 300 },
-  { text: "Ok t'as gagné", distance: 300 },
-  { text: "Ok t'as gagné", distance: 300 },
-  { text: "😮‍💨", distance: 0 },
-];
+interface Stage {
+  text: string;
+  distance: number;
+}
 
 export default function UselessButton() {
   const router = useRouter();
+  const t = useTranslations('contact.uselessButton');
+  const locale = useLocale();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const lastMoveRef = useRef(0);
 
@@ -50,6 +27,24 @@ export default function UselessButton() {
   const [attempts, setAttempts] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
+
+  // Build STAGES from translations
+  const STAGES = useMemo(() => {
+    const stageTexts = t.raw('stages') as string[];
+    const stages: Stage[] = [];
+
+    // Each stage text repeats 3 times
+    stageTexts.forEach((text) => {
+      for (let i = 0; i < 3; i++) {
+        stages.push({ text, distance: STAGE_DISTANCE });
+      }
+    });
+
+    // Final emoji stage with distance 0
+    stages.push({ text: "😮‍💨", distance: 0 });
+
+    return stages;
+  }, [t]);
 
   const stage = STAGES[Math.min(attempts, STAGES.length - 1)];
   const hasGivenUp = attempts >= STAGES.length - 1;
@@ -139,7 +134,7 @@ export default function UselessButton() {
 
     setIsLoading(true);
     await wait(1500);
-    router.push("/contact?from=useless");
+    router.push(`/${locale}/contact?from=useless`);
   };
 
   return (
@@ -203,7 +198,7 @@ export default function UselessButton() {
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                 />
               </svg>
-              Chargement...
+              {t('loading')}
             </>
           ) : (
             <span className={cn(stage.text === "😮‍💨" && "text-lg")}>

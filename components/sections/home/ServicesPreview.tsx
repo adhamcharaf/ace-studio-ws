@@ -1,9 +1,9 @@
 "use client";
 
 import React from "react";
+import { useTranslations, useLocale } from 'next-intl';
 import { useStaggerAnimation } from "@/lib/hooks";
 import { Button, Card } from "@/components/ui";
-import { SERVICES } from "@/lib/constants";
 
 // Placeholder icons for services
 const ServiceIcon = ({ type }: { type: string }) => {
@@ -28,7 +28,13 @@ const ServiceIcon = ({ type }: { type: string }) => {
   return icons[type] || icons.vitrine;
 };
 
+const SERVICE_KEYS = ['vitrine', 'ambitieux', 'identite'] as const;
+
 export default function ServicesPreview() {
+  const t = useTranslations('services');
+  const tPreview = useTranslations('servicesPreview');
+  const locale = useLocale();
+
   const containerRef = useStaggerAnimation<HTMLDivElement>(".service-card", "slide-up", {
     stagger: 0.15,
   });
@@ -40,28 +46,28 @@ export default function ServicesPreview() {
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 font-[var(--font-playfair)] text-[var(--theme-text)]">
-          Ce qu&apos;on crée :
+          {tPreview('title')}
         </h2>
 
         <div
           ref={containerRef}
           className="grid grid-cols-1 md:grid-cols-3 gap-8"
         >
-          {SERVICES.map((service) => (
+          {SERVICE_KEYS.map((key) => (
             <Card
-              key={service.id}
+              key={key}
               className="service-card"
-              icon={<ServiceIcon type={service.icon} />}
-              title={service.title}
-              description={service.subtitle}
-              href="/services"
+              icon={<ServiceIcon type={key} />}
+              title={t(`${key}.title`)}
+              description={t(`${key}.subtitle`)}
+              href={`/${locale}/services`}
             />
           ))}
         </div>
 
         <div className="text-center mt-12">
-          <Button href="/services" variant="secondary">
-            Voir tous les services
+          <Button href={`/${locale}/services`} variant="secondary">
+            {tPreview('cta')}
           </Button>
         </div>
       </div>

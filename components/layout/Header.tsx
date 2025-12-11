@@ -3,18 +3,30 @@
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations, useLocale } from 'next-intl';
 import { useScroll } from "@/lib/hooks";
 import { cn } from "@/lib/utils";
-import { NAVIGATION } from "@/lib/constants";
 import MobileMenu from "./MobileMenu";
 import DontClickButton from "../easter-eggs/DontClickButton";
 import Logo from "./Logo";
+import { LanguageSwitcher } from "@/components/ui";
+
+// Navigation structure (hrefs are relative, will be prefixed with locale)
+const NAVIGATION_KEYS = [
+  { key: "home", href: "" },
+  { key: "studio", href: "/le-studio" },
+  { key: "services", href: "/services" },
+  { key: "contact", href: "/contact" },
+] as const;
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isOverDarkSection, setIsOverDarkSection] = useState(false);
   const { isScrolled } = useScroll(50);
   const pathname = usePathname();
+  const t = useTranslations('navigation');
+  const tAccess = useTranslations('accessibility');
+  const locale = useLocale();
 
   // Intersection Observer to detect dark sections
   useEffect(() => {
@@ -69,6 +81,20 @@ export default function Header() {
     setIsMobileMenuOpen(false);
   }, []);
 
+  // Build localized navigation items
+  const navigation = NAVIGATION_KEYS.map((item) => ({
+    name: t(item.key),
+    href: `/${locale}${item.href}`,
+  }));
+
+  // Check if current path matches nav item
+  const isActivePath = (href: string) => {
+    if (href === `/${locale}`) {
+      return pathname === `/${locale}` || pathname === `/${locale}/`;
+    }
+    return pathname.startsWith(href);
+  };
+
   return (
     <>
       <header
@@ -83,9 +109,9 @@ export default function Header() {
           <nav className="flex items-center justify-between">
             {/* Logo */}
             <Link
-              href="/"
+              href={`/${locale}`}
               className="flex items-center group"
-              aria-label="Retour à l'accueil"
+              aria-label={tAccess('backToHome')}
             >
               <Logo
                 variant={useLightText ? "white" : "black"}
@@ -98,13 +124,13 @@ export default function Header() {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
-              {NAVIGATION.map((item) => (
+              {navigation.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={cn(
                     "text-sm font-medium transition-all duration-300 link-underline",
-                    pathname === item.href
+                    isActivePath(item.href)
                       ? "text-[var(--theme-accent)] drop-shadow-[0_0_6px_rgba(201,160,80,0.3)]"
                       : useLightText
                         ? "text-white hover:text-[var(--theme-accent)]"
@@ -115,42 +141,49 @@ export default function Header() {
                 </Link>
               ))}
 
+              {/* Language Switcher */}
+              <LanguageSwitcher variant={useLightText ? 'light' : 'default'} />
+
               {/* DON'T CLICK Easter Egg */}
               <DontClickButton />
             </div>
 
-            {/* Mobile Menu Button */}
-            <button
-              type="button"
-              onClick={() => setIsMobileMenuOpen(true)}
-              onTouchEnd={(e) => {
-                e.preventDefault();
-                setIsMobileMenuOpen(true);
-              }}
-              className={cn(
-                "md:hidden p-3 -mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center",
-                "transition-colors touch-manipulation",
-                useLightText
-                  ? "text-white hover:text-[var(--theme-accent)]"
-                  : "text-[var(--theme-text)] hover:text-[var(--theme-accent)]"
-              )}
-              aria-label="Ouvrir le menu"
-              aria-expanded={isMobileMenuOpen}
-            >
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            {/* Mobile: Language Switcher + Menu Button */}
+            <div className="md:hidden flex items-center gap-2">
+              <LanguageSwitcher variant={useLightText ? 'light' : 'default'} />
+
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(true)}
+                onTouchEnd={(e) => {
+                  e.preventDefault();
+                  setIsMobileMenuOpen(true);
+                }}
+                className={cn(
+                  "p-3 -mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center",
+                  "transition-colors touch-manipulation",
+                  useLightText
+                    ? "text-white hover:text-[var(--theme-accent)]"
+                    : "text-[var(--theme-text)] hover:text-[var(--theme-accent)]"
+                )}
+                aria-label={tAccess('openMenu')}
+                aria-expanded={isMobileMenuOpen}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
+                <svg
+                  className="w-6 h-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
+                </svg>
+              </button>
+            </div>
           </nav>
         </div>
       </header>

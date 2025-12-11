@@ -1,39 +1,22 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const PROCESS_STEPS = [
-  {
-    number: "01",
-    title: "Brief",
-    description: "On écoute. Vraiment.",
-    detail: "Pas de questionnaire générique. Une vraie conversation pour comprendre votre vision.",
-  },
-  {
-    number: "02",
-    title: "Direction",
-    description: "On explore. Ensemble.",
-    detail: "Exemples, références, échanges. On définit le style avant de coder.",
-  },
-  {
-    number: "03",
-    title: "Code",
-    description: "On construit. Sans raccourcis.",
-    detail: "Du code propre, optimisé, fait pour durer et évoluer.",
-  },
-  {
-    number: "04",
-    title: "Launch",
-    description: "On livre. Et on reste là.",
-    detail: "Mise en ligne, tests, ajustements. Et un support réactif après.",
-  },
-];
+interface ProcessStep {
+  number: string;
+  title: string;
+  description: string;
+  detail: string;
+}
 
 export default function Methode() {
+  const t = useTranslations('studio.methode');
+  const steps = t.raw('steps') as ProcessStep[];
   const containerRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -108,10 +91,10 @@ export default function Methode() {
         {/* Section title */}
         <div className="text-center mb-24">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-[var(--font-playfair)] text-[var(--theme-text)] mb-4">
-            Notre méthode
+            {t('title')}
           </h2>
           <p className="text-xl text-[var(--theme-text-muted)]">
-            Simple, transparente, efficace.
+            {t('subtitle')}
           </p>
         </div>
 
@@ -136,7 +119,7 @@ export default function Methode() {
 
           {/* Steps */}
           <div className="space-y-20 md:space-y-32">
-            {PROCESS_STEPS.map((step, index) => (
+            {steps.map((step, index) => (
               <div
                 key={step.number}
                 ref={(el) => { stepsRef.current[index] = el; }}

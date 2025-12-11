@@ -1,31 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ADN_VALUES = [
-  {
-    id: "creativite",
-    title: "Créativité",
-    description: "Chaque pixel a une raison d'être.",
-    icon: "creativity",
-  },
-  {
-    id: "exigence",
-    title: "Exigence",
-    description: "Le bon n'est jamais assez bon.",
-    icon: "exigence",
-  },
-  {
-    id: "modernite",
-    title: "Modernité",
-    description: "Les standards d'aujourd'hui, pas d'hier.",
-    icon: "modernity",
-  },
-];
+const ADN_VALUE_KEYS = ["creativite", "exigence", "modernite"] as const;
+const ADN_ICONS: Record<string, string> = {
+  creativite: "creativity",
+  exigence: "exigence",
+  modernite: "modernity",
+};
 
 // Creative icon that "draws" itself
 function CreativityIcon({ isHovered }: { isHovered: boolean }) {
@@ -161,7 +148,13 @@ function ModernityIcon({ isHovered }: { isHovered: boolean }) {
   );
 }
 
-function ADNCard({ value, index }: { value: typeof ADN_VALUES[0]; index: number }) {
+interface ADNCardProps {
+  valueKey: typeof ADN_VALUE_KEYS[number];
+  index: number;
+}
+
+function ADNCard({ valueKey, index }: ADNCardProps) {
+  const t = useTranslations('studio.adn.values');
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -195,7 +188,8 @@ function ADNCard({ value, index }: { value: typeof ADN_VALUES[0]; index: number 
   }, [index]);
 
   const renderIcon = () => {
-    switch (value.icon) {
+    const icon = ADN_ICONS[valueKey];
+    switch (icon) {
       case "creativity":
         return <CreativityIcon isHovered={isHovered} />;
       case "exigence":
@@ -245,12 +239,12 @@ function ADNCard({ value, index }: { value: typeof ADN_VALUES[0]; index: number 
             color: isHovered ? "var(--ace-gold)" : "var(--theme-text)",
           }}
         >
-          {value.title}
+          {t(`${valueKey}.title`)}
         </h3>
 
         {/* Description */}
         <p className="text-[var(--theme-text-muted)] text-center text-lg">
-          {value.description}
+          {t(`${valueKey}.description`)}
         </p>
 
         {/* Corner decorations */}
@@ -274,6 +268,7 @@ function ADNCard({ value, index }: { value: typeof ADN_VALUES[0]; index: number 
 }
 
 export default function ADN() {
+  const t = useTranslations('studio.adn');
   const containerRef = useRef<HTMLDivElement>(null);
   const introRef = useRef<HTMLDivElement>(null);
 
@@ -320,22 +315,22 @@ export default function ADN() {
         {/* Intro text */}
         <div ref={introRef} className="text-center mb-20">
           <p className="text-2xl md:text-3xl text-[var(--theme-text-muted)] mb-4">
-            Notre recette ?{" "}
-            <span className="text-[var(--ace-gold)]">Pas de recette.</span>
+            {t('intro')}{" "}
+            <span className="text-[var(--ace-gold)]">{t('introAccent')}</span>
           </p>
           <p className="text-xl md:text-2xl text-[var(--theme-text-muted)]">
-            Juste trois ingrédients qu&apos;on refuse de négocier :
+            {t('subtitle')}
           </p>
         </div>
 
         {/* Cards grid - asymétrique */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-5xl mx-auto">
-          {ADN_VALUES.map((value, index) => (
+          {ADN_VALUE_KEYS.map((valueKey, index) => (
             <div
-              key={value.id}
+              key={valueKey}
               className={index === 1 ? "md:mt-12" : ""}
             >
-              <ADNCard value={value} index={index} />
+              <ADNCard valueKey={valueKey} index={index} />
             </div>
           ))}
         </div>

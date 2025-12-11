@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { FEATURED_PROJECTS } from "@/lib/constants";
@@ -9,6 +10,7 @@ import { cn } from "@/lib/utils";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function PortfolioPreview() {
+  const t = useTranslations('portfolioPreview');
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const cardRef = useRef<HTMLAnchorElement>(null);
@@ -111,13 +113,13 @@ export default function PortfolioPreview() {
         {/* Section header */}
         <div className="text-center mb-16 md:mb-20">
           <span className="inline-block text-[var(--ace-gold)] text-sm tracking-[0.3em] uppercase mb-4 font-medium">
-            Réalisation
+            {t('label')}
           </span>
           <h2
             ref={titleRef}
             className="text-4xl md:text-5xl lg:text-6xl font-bold font-[var(--font-playfair)] text-[var(--ace-white)]"
           >
-            Ce qu&apos;on a créé
+            {t('title')}
           </h2>
         </div>
 
@@ -172,7 +174,6 @@ export default function PortfolioPreview() {
               muted
               loop
               playsInline
-              aria-label={`Aperçu du projet ${project.title} - ${project.description}`}
               className={cn(
                 "w-full h-full object-cover transition-transform duration-700",
                 isHovered ? "scale-105" : "scale-100"
@@ -207,7 +208,7 @@ export default function PortfolioPreview() {
                   "group-hover:bg-white group-hover:shadow-lg"
                 )}
               >
-                <span>Visiter le site</span>
+                <span>{t('cta')}</span>
                 <svg
                   className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
                   fill="none"
@@ -228,7 +229,7 @@ export default function PortfolioPreview() {
 
         {/* Bottom tagline */}
         <p className="text-center mt-12 text-white/40 text-sm tracking-wide">
-          Cliquez pour explorer le projet en direct
+          {t('hint')}
         </p>
       </div>
     </section>

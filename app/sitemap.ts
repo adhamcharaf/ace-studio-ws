@@ -1,48 +1,47 @@
-import { MetadataRoute } from "next";
+import { MetadataRoute } from 'next';
+import { locales } from '@/i18n/config';
 
-const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://ace-studio-dev.com";
+const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://acestudio.ci';
+
+// Liste des routes du site
+const routes = [
+  '',           // Home
+  '/le-studio',
+  '/services',
+  '/contact',
+];
+
+// Ajouter conditionnellement la page portfolio
+const showPortfolio = process.env.NEXT_PUBLIC_SHOW_PORTFOLIO === 'true';
+if (showPortfolio) {
+  routes.push('/realisations');
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const currentDate = new Date().toISOString();
+  const entries: MetadataRoute.Sitemap = [];
 
-  // Pages principales
-  const routes = [
-    {
-      url: baseUrl,
-      lastModified: currentDate,
-      changeFrequency: "weekly" as const,
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/services`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/le-studio`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/contact`,
-      lastModified: currentDate,
-      changeFrequency: "monthly" as const,
-      priority: 0.8,
-    },
-  ];
+  for (const route of routes) {
+    // Créer les alternates pour chaque langue
+    const languages: Record<string, string> = {};
+    for (const locale of locales) {
+      languages[locale] = `${baseUrl}/${locale}${route}`;
+    }
+    // Ajouter x-default pointant vers le français (marché principal)
+    languages['x-default'] = `${baseUrl}/fr${route}`;
 
-  // Ajouter la page réalisations si elle est activée
-  const showPortfolio = process.env.NEXT_PUBLIC_SHOW_PORTFOLIO === "true";
-  if (showPortfolio) {
-    routes.push({
-      url: `${baseUrl}/realisations`,
-      lastModified: currentDate,
-      changeFrequency: "weekly" as const,
-      priority: 0.7,
-    });
+    // Ajouter une entrée pour chaque locale
+    for (const locale of locales) {
+      entries.push({
+        url: `${baseUrl}/${locale}${route}`,
+        lastModified: new Date(),
+        changeFrequency: route === '' ? 'weekly' : 'monthly',
+        priority: route === '' ? 1 : 0.8,
+        alternates: {
+          languages,
+        },
+      });
+    }
   }
 
-  return routes;
+  return entries;
 }

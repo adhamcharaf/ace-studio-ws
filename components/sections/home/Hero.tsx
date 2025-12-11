@@ -2,6 +2,7 @@
 
 import { useRef, useLayoutEffect, useEffect, useState } from "react";
 import Image from "next/image";
+import { useTranslations, useLocale } from 'next-intl';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "@/components/ui";
@@ -35,6 +36,10 @@ export default function Hero() {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const cornerRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+
+  const t = useTranslations('hero');
+  const tCommon = useTranslations('common');
+  const locale = useLocale();
 
   // Détecter mobile pour le scroll
   useEffect(() => {
@@ -255,8 +260,6 @@ export default function Hero() {
           fill
           className="object-contain"
           priority
-          role="presentation"
-          aria-hidden="true"
         />
       </div>
 
@@ -292,7 +295,7 @@ export default function Hero() {
               ref={accentTextRef}
               className="block text-[var(--ace-gold)] text-sm md:text-base tracking-[0.3em] uppercase mb-4 md:mb-6"
             >
-              Agence de création digitale
+              {t('accent')}
             </span>
 
             {/* MASSIVE title */}
@@ -300,7 +303,7 @@ export default function Hero() {
               ref={titleRef}
               className="text-massive font-bold font-[var(--font-playfair)] text-white leading-none mb-6 md:mb-8"
             >
-              ACE STUDIO
+              {t('title')}
             </h1>
 
             {/* Tagline with gold accent */}
@@ -308,17 +311,19 @@ export default function Hero() {
               ref={taglineRef}
               className="text-xl md:text-2xl lg:text-3xl text-white/70 max-w-xl mb-10 md:mb-12"
             >
-              Des expériences digitales qui{" "}
-              <span className="text-[var(--ace-gold)] italic font-[var(--font-playfair)]">
-                marquent
-              </span>{" "}
-              les esprits.
+              {t.rich('tagline', {
+                accent: (chunks) => (
+                  <span className="text-[var(--ace-gold)] italic font-[var(--font-playfair)]">
+                    {chunks}
+                  </span>
+                ),
+              })}
             </p>
 
             {/* CTA */}
             <div ref={ctaRef}>
-              <Button href="/contact" size="lg">
-                Discutons de votre projet
+              <Button href={`/${locale}/contact`} size="lg">
+                {t('cta')}
               </Button>
             </div>
           </div>
@@ -332,7 +337,7 @@ export default function Hero() {
         onClick={handleScrollDown}
       >
         <span className="text-[var(--ace-gray)] text-xs tracking-widest uppercase group-hover:text-[var(--ace-gold)] transition-colors">
-          Découvrir
+          {tCommon('discover')}
         </span>
         <div className="scroll-indicator">
           <svg

@@ -1,13 +1,19 @@
 "use client";
 
+import { useTranslations } from 'next-intl';
 import { useStaggerAnimation } from "@/lib/hooks";
-import { COMPARISON } from "@/lib/constants";
 import { GlowCircle, DecorativeLine } from "@/components/decorative";
 
 export default function Comparison() {
+  const t = useTranslations('services.comparison');
+  const tComparison = useTranslations('comparison');
+
   const containerRef = useStaggerAnimation<HTMLDivElement>(".comparison-row", "fade", {
     stagger: 0.15,
   });
+
+  const templateItems = tComparison.raw('template') as string[];
+  const aceStudioItems = tComparison.raw('aceStudio') as string[];
 
   return (
     <section className="relative py-16 md:py-24 bg-[var(--theme-background-alt)] overflow-hidden">
@@ -27,7 +33,7 @@ export default function Comparison() {
 
       <div className="container mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-16 font-[var(--font-playfair)] text-[var(--theme-text)]">
-          Template vs ACE STUDIO
+          {t('title')}
         </h2>
 
         <div
@@ -37,15 +43,15 @@ export default function Comparison() {
           {/* Header */}
           <div className="grid grid-cols-2 bg-[var(--theme-text)] text-[var(--theme-background)]">
             <div className="p-4 md:p-6 text-center font-semibold border-r border-[var(--theme-text-muted)]/20">
-              Template
+              {t('templateHeader')}
             </div>
             <div className="p-4 md:p-6 text-center font-semibold text-[var(--theme-accent)]">
-              ACE STUDIO
+              {t('aceHeader')}
             </div>
           </div>
 
           {/* Rows */}
-          {COMPARISON.map((item, index) => (
+          {templateItems.map((templateItem, index) => (
             <div
               key={index}
               className="comparison-row grid grid-cols-2 border-b border-[var(--theme-text-muted)]/10 last:border-b-0"
@@ -63,7 +69,7 @@ export default function Comparison() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span className="line-through">{item.template}</span>
+                <span className="line-through">{templateItem}</span>
               </div>
 
               {/* ACE STUDIO column */}
@@ -79,7 +85,7 @@ export default function Comparison() {
                     clipRule="evenodd"
                   />
                 </svg>
-                <span className="font-medium">{item.aceStudio}</span>
+                <span className="font-medium">{aceStudioItems[index]}</span>
               </div>
             </div>
           ))}

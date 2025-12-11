@@ -3,11 +3,19 @@
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations, useLocale } from 'next-intl';
 import gsap from "gsap";
 import { cn } from "@/lib/utils";
-import { NAVIGATION, SITE_CONFIG } from "@/lib/constants";
 import DontClickButton from "../easter-eggs/DontClickButton";
 import Logo from "./Logo";
+
+// Navigation structure (hrefs are relative, will be prefixed with locale)
+const NAVIGATION_KEYS = [
+  { key: "home", href: "" },
+  { key: "studio", href: "/le-studio" },
+  { key: "services", href: "/services" },
+  { key: "contact", href: "/contact" },
+] as const;
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -19,6 +27,25 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
   const isFirstRender = useRef(true);
+  const t = useTranslations('navigation');
+  const tSite = useTranslations('siteConfig');
+  const tMeta = useTranslations('metadata');
+  const tAccess = useTranslations('accessibility');
+  const locale = useLocale();
+
+  // Build localized navigation items
+  const navigation = NAVIGATION_KEYS.map((item) => ({
+    name: t(item.key),
+    href: `/${locale}${item.href}`,
+  }));
+
+  // Check if current path matches nav item
+  const isActivePath = (href: string) => {
+    if (href === `/${locale}`) {
+      return pathname === `/${locale}` || pathname === `/${locale}/`;
+    }
+    return pathname.startsWith(href);
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -94,13 +121,13 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           <div className="flex items-center space-x-2">
             <Logo className="w-10 h-10" variant="white" />
             <span className="text-xl font-bold text-[var(--ace-white)] font-[var(--font-playfair)]">
-              {SITE_CONFIG.name}
+              {tMeta('siteName')}
             </span>
           </div>
           <button
             onClick={onClose}
             className="p-2 text-[var(--ace-white)] hover:text-[var(--ace-gold)] transition-colors"
-            aria-label="Fermer le menu"
+            aria-label={tAccess('closeMenu')}
           >
             <svg
               className="w-8 h-8"
@@ -123,14 +150,14 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           ref={linksRef}
           className="flex-1 flex flex-col items-center justify-center space-y-8"
         >
-          {NAVIGATION.map((item) => (
+          {navigation.map((item) => (
             <Link
               key={item.href}
               href={item.href}
               className={cn(
                 "text-3xl font-semibold transition-colors duration-200",
                 "font-[var(--font-playfair)]",
-                pathname === item.href
+                isActivePath(item.href)
                   ? "text-[var(--ace-gold)]"
                   : "text-[var(--ace-white)] hover:text-[var(--ace-gold)]"
               )}
@@ -148,7 +175,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
         {/* Footer */}
         <div className="p-6 text-center">
           <p className="text-[var(--ace-gray)] text-sm">
-            {SITE_CONFIG.tagline}
+            {tSite('tagline')}
           </p>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { useTranslations } from 'next-intl';
 import { useScrollAnimation } from "@/lib/hooks";
 import {
   AuroraBackground,
@@ -10,15 +11,8 @@ import {
   TestimonialCard,
 } from "./testimonial-parts";
 
-const TESTIMONIAL = {
-  quote:
-    "ACE STUDIO a transformé notre vision en réalité. Le site d'Arena reflète parfaitement l'excellence et le prestige de notre complexe sportif. Un travail sur mesure, une équipe à l'écoute, un résultat qui dépasse nos attentes.",
-  author: "Direction",
-  company: "Arena Club-Sport & Events",
-  location: "Grand-Bassam",
-};
-
 export default function Testimonial() {
+  const t = useTranslations('testimonial');
   const sectionRef = useRef<HTMLElement>(null);
   const contentRef = useScrollAnimation<HTMLDivElement>("fade", { duration: 0.8 });
 
@@ -44,13 +38,13 @@ export default function Testimonial() {
         <TestimonialCard>
           {/* Small label */}
           <span className="inline-block text-[var(--ace-gold)] text-sm tracking-[0.2em] uppercase mb-8 font-medium">
-            Témoignage
+            {t('label')}
           </span>
 
           {/* Quote with magnetic words */}
           <blockquote className="relative">
             <span className="text-[var(--ace-gold)]/40 font-[var(--font-playfair)] text-4xl md:text-5xl lg:text-6xl leading-none mr-2 align-top">"</span>
-            <MagneticQuote quote={TESTIMONIAL.quote} />
+            <MagneticQuote quote={t('quote')} />
             <span className="text-[var(--ace-gold)]/40 font-[var(--font-playfair)] text-4xl md:text-5xl lg:text-6xl leading-none ml-1 align-bottom">"</span>
           </blockquote>
 
@@ -62,12 +56,12 @@ export default function Testimonial() {
             {/* Author details */}
             <div className="flex flex-col items-center gap-1">
               <span className="text-[var(--ace-black)] font-semibold tracking-wide">
-                {TESTIMONIAL.author}
+                {t('author')}
               </span>
               <span className="text-[var(--ace-gray)] text-sm">
-                {TESTIMONIAL.company}
+                {t('company')}
                 <span className="mx-2 text-[var(--ace-gold)]">·</span>
-                {TESTIMONIAL.location}
+                {t('location')}
               </span>
             </div>
           </div>

@@ -9,3 +9,4 @@ export { default as FloatingTextarea } from "./FloatingTextarea";
 export { default as FloatingSelect } from "./FloatingSelect";
 export { default as MagneticButton } from "./MagneticButton";
 export { default as TextScramble } from "./TextScramble";
+export { default as LanguageSwitcher } from "./LanguageSwitcher";

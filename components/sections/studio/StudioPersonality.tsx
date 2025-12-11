@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { UselessButton } from "@/components/easter-eggs";
@@ -9,6 +10,7 @@ import { GlowCircle, DecorativeLine } from "@/components/decorative";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function StudioPersonality() {
+  const t = useTranslations('studio.personality');
   const containerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
 
@@ -65,21 +67,20 @@ export default function StudioPersonality() {
         <div ref={contentRef} className="text-center max-w-3xl mx-auto">
           {/* Main title */}
           <h2 className="fade-item text-4xl md:text-5xl lg:text-6xl font-bold mb-8 font-[var(--font-playfair)] text-[var(--theme-text)]">
-            ACE STUDIO, c&apos;est...
+            {t('title')}
           </h2>
 
           {/* Personality descriptions */}
           <div className="fade-item space-y-4 mb-16">
             <p className="text-xl md:text-2xl text-[var(--theme-text-muted)]">
-              Un studio{" "}
-              <span className="text-[var(--ace-gold)]">passionné</span>,{" "}
-              <span className="text-[var(--ace-gold)]">créatif</span>,{" "}
-              sérieux mais{" "}
-              <span className="text-[var(--ace-gold)]">jamais ennuyeux</span>.
+              {t.rich('description1', {
+                passionate: (chunks) => <span className="text-[var(--ace-gold)]">{chunks}</span>,
+                creative: (chunks) => <span className="text-[var(--ace-gold)]">{chunks}</span>,
+                neverBoring: (chunks) => <span className="text-[var(--ace-gold)]">{chunks}</span>,
+              })}
             </p>
             <p className="text-lg md:text-xl text-[var(--theme-text-muted)] opacity-80">
-              Une énergie positive, un œil pour le beau, une exigence pour le
-              travail bien fait.
+              {t('description2')}
             </p>
           </div>
 

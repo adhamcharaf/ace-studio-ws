@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import {
   FloatingInput,
@@ -8,14 +9,6 @@ import {
   FloatingSelect,
   MagneticButton,
 } from "@/components/ui";
-import {
-  PROJECT_TYPES,
-  BUDGET_OPTIONS,
-  FORM_STEPS,
-  FUNNY_PLACEHOLDERS,
-  FUNNY_ERRORS,
-  LOADING_MESSAGES,
-} from "@/lib/constants";
 import { cn } from "@/lib/utils";
 import type { ContactFormData, FormStatus } from "@/types";
 
@@ -32,6 +25,38 @@ const initialFormData: ContactFormData = {
 };
 
 export default function EmailFormCard({ onSuccess }: EmailFormCardProps) {
+  const t = useTranslations('contact.form');
+  const tProjectTypes = useTranslations('contact.projectTypes');
+  const tBudget = useTranslations('contact.budgetOptions');
+  const tCommon = useTranslations('common');
+
+  // Form steps from translations
+  const FORM_STEPS = [
+    { id: 1, title: t('steps.1.title'), subtitle: t('steps.1.subtitle') },
+    { id: 2, title: t('steps.2.title'), subtitle: t('steps.2.subtitle') },
+    { id: 3, title: t('steps.3.title'), subtitle: t('steps.3.subtitle') },
+  ];
+
+  // Project types from translations
+  const PROJECT_TYPES = [
+    { value: "site-vitrine", label: tProjectTypes('site-vitrine') },
+    { value: "projet-ambitieux", label: tProjectTypes('projet-ambitieux') },
+    { value: "identite-digitale", label: tProjectTypes('identite-digitale') },
+    { value: "autre", label: tProjectTypes('autre') },
+  ];
+
+  // Budget options from translations
+  const BUDGET_OPTIONS = [
+    { value: "a-definir", label: tBudget('a-definir') },
+    { value: "less-500k", label: tBudget('less-500k') },
+    { value: "500k-1m", label: tBudget('500k-1m') },
+    { value: "1m-2m", label: tBudget('1m-2m') },
+    { value: "more-2m", label: tBudget('more-2m') },
+  ];
+
+  // Loading messages from translations
+  const LOADING_MESSAGES = t.raw('loading') as string[];
+
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<ContactFormData>(initialFormData);
   const [errors, setErrors] = useState<Partial<ContactFormData>>({});
@@ -59,30 +84,30 @@ export default function EmailFormCard({ onSuccess }: EmailFormCardProps) {
 
     if (step === 1) {
       if (!formData.name || formData.name.length < 2) {
-        newErrors.name = FUNNY_ERRORS.fieldEmpty;
+        newErrors.name = t('errors.fieldEmpty');
       }
       if (!formData.email) {
-        newErrors.email = FUNNY_ERRORS.fieldEmpty;
+        newErrors.email = t('errors.fieldEmpty');
       } else if (!isValidEmail(formData.email)) {
-        newErrors.email = FUNNY_ERRORS.emailInvalid;
+        newErrors.email = t('errors.emailInvalid');
       }
     }
 
     if (step === 2) {
       if (!formData.projectType) {
-        newErrors.projectType = FUNNY_ERRORS.fieldEmpty;
+        newErrors.projectType = t('errors.fieldEmpty');
       }
     }
 
     if (step === 3) {
       if (!formData.message || formData.message.length < 10) {
-        newErrors.message = FUNNY_ERRORS.messageTooShort;
+        newErrors.message = t('errors.messageTooShort');
       }
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  }, [formData]);
+  }, [formData, t]);
 
   // Handle step transition animation
   const animateStepTransition = useCallback((direction: "next" | "prev") => {
@@ -290,19 +315,19 @@ export default function EmailFormCard({ onSuccess }: EmailFormCardProps) {
           {/* Step 1: Name & Email */}
           <div ref={step1Ref} className="space-y-6">
             <FloatingInput
-              label="Votre nom"
+              label={t('fields.name')}
               value={formData.name}
               onChange={(e) => handleChange("name", e.target.value)}
-              placeholder={FUNNY_PLACEHOLDERS.name}
+              placeholder={t('placeholders.name')}
               error={errors.name}
               autoComplete="name"
             />
             <FloatingInput
-              label="Votre email"
+              label={t('fields.email')}
               type="email"
               value={formData.email}
               onChange={(e) => handleChange("email", e.target.value)}
-              placeholder={FUNNY_PLACEHOLDERS.email}
+              placeholder={t('placeholders.email')}
               error={errors.email}
               autoComplete="email"
             />
@@ -311,14 +336,14 @@ export default function EmailFormCard({ onSuccess }: EmailFormCardProps) {
           {/* Step 2: Project Type & Budget */}
           <div ref={step2Ref} className="space-y-6">
             <FloatingSelect
-              label="Type de projet"
+              label={t('fields.projectType')}
               value={formData.projectType}
               onChange={(e) => handleChange("projectType", e.target.value)}
               options={[...PROJECT_TYPES]}
               error={errors.projectType}
             />
             <FloatingSelect
-              label="Budget (optionnel)"
+              label={t('fields.budget')}
               value={formData.budget}
               onChange={(e) => handleChange("budget", e.target.value)}
               options={[...BUDGET_OPTIONS]}
@@ -328,10 +353,10 @@ export default function EmailFormCard({ onSuccess }: EmailFormCardProps) {
           {/* Step 3: Message */}
           <div ref={step3Ref} className="space-y-6">
             <FloatingTextarea
-              label="Votre message"
+              label={t('fields.message')}
               value={formData.message}
               onChange={(e) => handleChange("message", e.target.value)}
-              placeholder={FUNNY_PLACEHOLDERS.message}
+              placeholder={t('placeholders.message')}
               error={errors.message}
               rows={5}
             />
@@ -350,7 +375,7 @@ export default function EmailFormCard({ onSuccess }: EmailFormCardProps) {
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
-                Retour
+                {tCommon('back')}
               </button>
             )}
           </div>
@@ -359,7 +384,7 @@ export default function EmailFormCard({ onSuccess }: EmailFormCardProps) {
           <div className="relative">
             {currentStep < 3 ? (
               <MagneticButton onClick={handleNext} variant="primary" size="md">
-                Continuer
+                {tCommon('continue')}
                 <svg className="w-4 h-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                 </svg>
@@ -400,7 +425,7 @@ export default function EmailFormCard({ onSuccess }: EmailFormCardProps) {
                     </>
                   ) : (
                     <>
-                      Envoyer
+                      {tCommon('send')}
                       <svg className="w-5 h-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path
                           strokeLinecap="round"
@@ -416,7 +441,7 @@ export default function EmailFormCard({ onSuccess }: EmailFormCardProps) {
                 {/* Hover tooltip easter egg */}
                 {showHoverTooltip && (
                   <div className="absolute -top-12 left-1/2 -translate-x-1/2 px-3 py-1.5 bg-[var(--ace-gold)] text-[var(--ace-black)] text-sm rounded-lg whitespace-nowrap animate-fade-in">
-                    Allez, on y croit !
+                    {t('hoverTooltip')}
                     <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-[var(--ace-gold)] rotate-45" />
                   </div>
                 )}
@@ -428,7 +453,7 @@ export default function EmailFormCard({ onSuccess }: EmailFormCardProps) {
         {/* Error state */}
         {status === "error" && (
           <div className="mt-4 p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-500 text-sm text-center">
-            Oups ! Une erreur s&apos;est produite. Reessayez ou contactez-nous sur WhatsApp.
+            {t('errorMessage')}
           </div>
         )}
       </div>

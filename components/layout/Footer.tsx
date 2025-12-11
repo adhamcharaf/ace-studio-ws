@@ -1,13 +1,43 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslations, useLocale } from 'next-intl';
 import { useTime } from "@/lib/hooks";
-import { NAVIGATION, SITE_CONFIG } from "@/lib/constants";
 import Logo from "./Logo";
 import { Button } from "../ui";
 
+// Navigation structure (hrefs are relative, will be prefixed with locale)
+const NAVIGATION_KEYS = [
+  { key: "home", href: "" },
+  { key: "studio", href: "/le-studio" },
+  { key: "services", href: "/services" },
+  { key: "contact", href: "/contact" },
+] as const;
+
 export default function Footer() {
-  const { formatted, greeting } = useTime();
+  const { formatted } = useTime();
+  const t = useTranslations('footer');
+  const tNav = useTranslations('navigation');
+  const tSite = useTranslations('siteConfig');
+  const tMeta = useTranslations('metadata');
+  const tTime = useTranslations('timeGreetings');
+  const locale = useLocale();
+
+  // Build localized navigation items
+  const navigation = NAVIGATION_KEYS.map((item) => ({
+    name: tNav(item.key),
+    href: `/${locale}${item.href}`,
+  }));
+
+  // Get time-based greeting
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour >= 6 && hour < 12) return tTime('morning');
+    if (hour >= 12 && hour < 14) return tTime('lunch');
+    if (hour >= 14 && hour < 18) return tTime('afternoon');
+    if (hour >= 18 && hour < 22) return tTime('evening');
+    return tTime('night');
+  };
 
   return (
     <footer className="relative">
@@ -41,12 +71,12 @@ export default function Footer() {
 
           {/* Tagline */}
           <p className="text-center text-[var(--ace-gray)] text-lg mb-10 max-w-md mx-auto">
-            {SITE_CONFIG.tagline}
+            {tSite('tagline')}
           </p>
 
           {/* Navigation - Horizontal */}
           <nav className="flex flex-wrap justify-center gap-x-8 gap-y-3 mb-12">
-            {NAVIGATION.map((item, index) => (
+            {navigation.map((item, index) => (
               <div key={item.href} className="flex items-center">
                 <Link
                   href={item.href}
@@ -54,7 +84,7 @@ export default function Footer() {
                 >
                   {item.name}
                 </Link>
-                {index < NAVIGATION.length - 1 && (
+                {index < navigation.length - 1 && (
                   <span className="ml-8 w-1 h-1 rounded-full bg-[var(--ace-gold)]/40 hidden md:block" />
                 )}
               </div>
@@ -71,13 +101,13 @@ export default function Footer() {
           {/* CTA Section - Elegant */}
           <div className="text-center mb-10">
             <p className="text-2xl md:text-3xl font-[var(--font-playfair)] text-[var(--ace-white)] mb-3">
-              Tu scrolles encore ?
+              {t('cta.title')}
             </p>
             <p className="text-[var(--ace-gray)] mb-6">
-              Discutons de ton projet.
+              {t('cta.subtitle')}
             </p>
-            <Button href="/contact" variant="primary" size="md">
-              Prendre contact
+            <Button href={`/${locale}/contact`} variant="primary" size="md">
+              {t('cta.button')}
             </Button>
           </div>
 
@@ -87,7 +117,7 @@ export default function Footer() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            {SITE_CONFIG.location}
+            {tSite('location')}
           </div>
         </div>
 
@@ -97,23 +127,23 @@ export default function Footer() {
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               {/* Made With */}
               <p className="text-[var(--ace-gray)] text-sm order-2 md:order-1">
-                Fait avec{" "}
-                <span className="text-[var(--ace-gold)]">du café</span>
-                {" "}et{" "}
-                <span className="font-semibold text-[var(--ace-white)]">0 templates</span>
+                {t.rich('madeWith', {
+                  coffee: (chunks) => <span className="text-[var(--ace-gold)]">{chunks}</span>,
+                  templates: (chunks) => <span className="font-semibold text-[var(--ace-white)]">{chunks}</span>
+                })}
               </p>
 
               {/* Dynamic Time - Center */}
               <p className="text-[var(--ace-gray)] text-sm order-1 md:order-2">
-                Il est{" "}
+                {t('timePrefix')}{" "}
                 <span className="text-[var(--ace-gold)] font-medium">{formatted}</span>
                 <span className="mx-2">•</span>
-                <span className="text-[var(--ace-white)]/80">{greeting}</span>
+                <span className="text-[var(--ace-white)]/80">{getGreeting()}</span>
               </p>
 
               {/* Copyright */}
               <p className="text-[var(--ace-gray)] text-sm order-3">
-                &copy; {new Date().getFullYear()} {SITE_CONFIG.name}
+                &copy; {new Date().getFullYear()} {tMeta('siteName')}
               </p>
             </div>
           </div>

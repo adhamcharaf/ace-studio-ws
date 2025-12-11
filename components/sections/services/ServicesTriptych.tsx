@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import { useTranslations } from 'next-intl';
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SERVICES } from "@/lib/constants";
@@ -10,6 +11,9 @@ import ComingSoonCard from "./ComingSoonCard";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function ServicesTriptych() {
+  const t = useTranslations('services');
+  const tCommon = useTranslations('common');
+
   const sectionRef = useRef<HTMLElement>(null);
   const featuredCardRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -54,10 +58,10 @@ export default function ServicesTriptych() {
         {/* Section title */}
         <div className="text-center mb-12 md:mb-16">
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold font-[var(--font-playfair)] text-[var(--ace-black)] mb-4">
-            Nos Offres
+            {t('offers.title')}
           </h2>
           <p className="text-[var(--ace-gray)] max-w-2xl mx-auto">
-            Une solution pour chaque besoin, toujours sur mesure.
+            {t('offers.subtitle')}
           </p>
         </div>
 
@@ -90,7 +94,6 @@ export default function ServicesTriptych() {
                       muted
                       loop
                       playsInline
-                      aria-label={`Démonstration du projet ${project.title} - ${project.description}`}
                       className={cn(
                         "w-full h-full object-cover transition-transform duration-700",
                         isHovered ? "scale-105" : "scale-100"
@@ -109,7 +112,7 @@ export default function ServicesTriptych() {
                     {/* Project badge */}
                     <div className="absolute top-4 left-4">
                       <span className="px-3 py-1.5 text-xs tracking-wider uppercase bg-[var(--ace-gold)] text-[var(--ace-black)] rounded-full font-semibold">
-                        Exemple : {project.title}
+                        {tCommon('example')} : {project.title}
                       </span>
                     </div>
 
@@ -124,7 +127,7 @@ export default function ServicesTriptych() {
                           : "opacity-0 translate-y-2"
                       )}
                     >
-                      <span>Voir le projet</span>
+                      <span>{tCommon('viewProject')}</span>
                       <svg
                         className="w-4 h-4"
                         fill="none"
@@ -148,25 +151,25 @@ export default function ServicesTriptych() {
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
                   <div>
                     <h3 className="text-2xl md:text-3xl font-bold font-[var(--font-playfair)] text-[var(--ace-black)] mb-2">
-                      {siteVitrine?.title}
+                      {t('vitrine.title')}
                     </h3>
                     <p className="text-[var(--ace-gold)] text-lg">
-                      {siteVitrine?.subtitle}
+                      {t('vitrine.subtitle')}
                     </p>
                   </div>
                   {/* Recommended badge */}
                   <span className="shrink-0 self-start px-3 py-1 bg-[var(--ace-gold)]/10 text-[var(--ace-gold)] text-xs font-semibold uppercase tracking-wider rounded-full border border-[var(--ace-gold)]/30">
-                    Populaire
+                    {tCommon('popular')}
                   </span>
                 </div>
 
                 <p className="text-[var(--ace-gray)] mb-6">
-                  {siteVitrine?.description}
+                  {t('vitrine.description')}
                 </p>
 
                 {/* Features */}
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {siteVitrine?.features.map((feature, i) => (
+                  {(t.raw('vitrine.features') as string[]).map((feature: string, i: number) => (
                     <li key={i} className="flex items-center gap-3">
                       <svg
                         className="w-5 h-5 text-[var(--ace-gold)] flex-shrink-0"
@@ -192,12 +195,12 @@ export default function ServicesTriptych() {
             {/* Projet Ambitieux */}
             {projetAmbitieux && !projetAmbitieux.hasProject && projetAmbitieux.comingSoon && (
               <ComingSoonCard
-                title={projetAmbitieux.title}
-                subtitle={projetAmbitieux.subtitle}
-                description={projetAmbitieux.description}
-                features={projetAmbitieux.features}
-                badge={projetAmbitieux.comingSoon.badge}
-                teaser={projetAmbitieux.comingSoon.teaser}
+                title={t('ambitieux.title')}
+                subtitle={t('ambitieux.subtitle')}
+                description={t('ambitieux.description')}
+                features={t.raw('ambitieux.features') as string[]}
+                badge={t('ambitieux.badge')}
+                teaser={t('ambitieux.comingSoon')}
                 delay={0.2}
               />
             )}
@@ -205,12 +208,12 @@ export default function ServicesTriptych() {
             {/* Identité Digitale */}
             {identiteDigitale && !identiteDigitale.hasProject && identiteDigitale.comingSoon && (
               <ComingSoonCard
-                title={identiteDigitale.title}
-                subtitle={identiteDigitale.subtitle}
-                description={identiteDigitale.description}
-                features={identiteDigitale.features}
-                badge={identiteDigitale.comingSoon.badge}
-                teaser={identiteDigitale.comingSoon.teaser}
+                title={t('identite.title')}
+                subtitle={t('identite.subtitle')}
+                description={t('identite.description')}
+                features={t.raw('identite.features') as string[]}
+                badge={t('identite.badge')}
+                teaser={t('identite.comingSoon')}
                 delay={0.4}
               />
             )}
