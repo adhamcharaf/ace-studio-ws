@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { StarField, Astronaut } from "@/components/404";
+import { StarField } from "@/components/404";
 import { cn } from "@/lib/utils";
 
 export default function NotFound() {
@@ -47,38 +47,10 @@ export default function NotFound() {
         </span>
       </div>
 
-      {/* Distant planet */}
-      <div
-        className={cn(
-          "absolute bottom-10 right-10 md:bottom-20 md:right-20",
-          "w-16 h-16 md:w-24 md:h-24 rounded-full",
-          "bg-gradient-to-br from-[#c9a050] via-[#8b6914] to-[#2a1f0a]",
-          "shadow-[0_0_60px_rgba(201,160,80,0.3),inset_-10px_-10px_30px_rgba(0,0,0,0.5)]",
-          "transition-all duration-1000 delay-500",
-          isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-        )}
-        style={{ zIndex: 2 }}
-      >
-        {/* Planet surface details */}
-        <div className="absolute top-3 left-4 w-3 h-2 rounded-full bg-[#a08030]/30" />
-        <div className="absolute top-6 right-5 w-4 h-3 rounded-full bg-[#7a5a20]/20" />
-        <div className="absolute bottom-4 left-6 w-5 h-2 rounded-full bg-[#6a4a10]/25" />
-      </div>
-
       {/* Main content */}
       <div
         className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-20"
       >
-        {/* Astronaut */}
-        <div
-          className={cn(
-            "mb-8 transition-all duration-1000 delay-300",
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-10"
-          )}
-        >
-          <Astronaut />
-        </div>
-
         {/* Text content */}
         <div
           className={cn(
@@ -187,36 +159,7 @@ export default function NotFound() {
           </Link>
         </div>
 
-        {/* Floating particles decoration */}
-        <div className="absolute inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 5 }}>
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="absolute w-1 h-1 bg-white/20 rounded-full"
-              style={{
-                left: `${15 + i * 15}%`,
-                top: `${20 + (i % 3) * 25}%`,
-                animation: `floatParticle ${8 + i * 2}s ease-in-out infinite`,
-                animationDelay: `${i * 0.5}s`,
-              }}
-            />
-          ))}
-        </div>
       </div>
-
-      {/* Global styles for this page */}
-      <style jsx global>{`
-        @keyframes floatParticle {
-          0%, 100% {
-            transform: translateY(0) translateX(0);
-            opacity: 0.2;
-          }
-          50% {
-            transform: translateY(-30px) translateX(10px);
-            opacity: 0.5;
-          }
-        }
-      `}</style>
     </div>
   );
 }

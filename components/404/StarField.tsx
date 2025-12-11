@@ -1,75 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 
 interface Star {
   x: number;
   y: number;
-  size: number;
-  opacity: number;
-  twinkleSpeed: number;
-  twinklePhase: number;
-  layer: number; // 0 = far, 1 = mid, 2 = near
-}
-
-interface ShootingStar {
-  x: number;
-  y: number;
-  length: number;
-  speed: number;
-  opacity: number;
-  angle: number;
-  active: boolean;
+  z: number;
+  prevX: number;
+  prevY: number;
+  isGold: boolean;
 }
 
 export default function StarField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const starsRef = useRef<Star[]>([]);
-  const shootingStarsRef = useRef<ShootingStar[]>([]);
-  const mouseRef = useRef({ x: 0, y: 0 });
   const animationRef = useRef<number>(0);
-  const lastShootingStarRef = useRef<number>(0);
-
-  const initStars = useCallback((width: number, height: number) => {
-    const stars: Star[] = [];
-    const starCount = Math.floor((width * height) / 3000); // Density based on screen size
-
-    for (let i = 0; i < starCount; i++) {
-      const layer = Math.random() < 0.5 ? 0 : Math.random() < 0.7 ? 1 : 2;
-      stars.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size: layer === 0 ? 0.5 + Math.random() * 0.5 : layer === 1 ? 1 + Math.random() * 0.5 : 1.5 + Math.random() * 1,
-        opacity: 0.3 + Math.random() * 0.7,
-        twinkleSpeed: 0.5 + Math.random() * 2,
-        twinklePhase: Math.random() * Math.PI * 2,
-        layer,
-      });
-    }
-
-    starsRef.current = stars;
-    shootingStarsRef.current = Array(3).fill(null).map(() => ({
-      x: 0,
-      y: 0,
-      length: 80 + Math.random() * 120,
-      speed: 15 + Math.random() * 10,
-      opacity: 0,
-      angle: Math.PI / 4 + (Math.random() - 0.5) * 0.3,
-      active: false,
-    }));
-  }, []);
-
-  const spawnShootingStar = useCallback((width: number, height: number) => {
-    const inactive = shootingStarsRef.current.find(s => !s.active);
-    if (inactive) {
-      inactive.x = Math.random() * width * 0.7;
-      inactive.y = Math.random() * height * 0.3;
-      inactive.opacity = 1;
-      inactive.active = true;
-      inactive.length = 80 + Math.random() * 120;
-      inactive.speed = 15 + Math.random() * 10;
-    }
-  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -78,154 +23,174 @@ export default function StarField() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    // Configuration
+    const STAR_COUNT = 500;
+    const SPEED = 15;
+    const MAX_DEPTH = 1500;
+    const TRAIL_LENGTH = 0.6; // How much of the trail to show (0-1)
+
+    // Initialize stars
+    const initStars = () => {
+      const stars: Star[] = [];
+      for (let i = 0; i < STAR_COUNT; i++) {
+        stars.push(createStar(true));
+      }
+      starsRef.current = stars;
+    };
+
+    // Create a single star
+    const createStar = (randomZ: boolean = false): Star => {
+      const angle = Math.random() * Math.PI * 2;
+      const radius = Math.random() * Math.max(canvas.width, canvas.height);
+      return {
+        x: Math.cos(angle) * radius,
+        y: Math.sin(angle) * radius,
+        z: randomZ ? Math.random() * MAX_DEPTH : MAX_DEPTH,
+        prevX: 0,
+        prevY: 0,
+        isGold: Math.random() < 0.15, // 15% golden stars
+      };
+    };
+
+    // Handle resize
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      initStars(canvas.width, canvas.height);
-    };
-
-    const handleMouseMove = (e: MouseEvent) => {
-      mouseRef.current = {
-        x: (e.clientX / window.innerWidth - 0.5) * 2,
-        y: (e.clientY / window.innerHeight - 0.5) * 2,
-      };
+      initStars();
     };
 
     handleResize();
     window.addEventListener("resize", handleResize);
-    window.addEventListener("mousemove", handleMouseMove);
 
-    let time = 0;
-
+    // Animation loop
     const animate = () => {
       if (!canvas || !ctx) return;
 
-      time += 0.016; // ~60fps
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
 
-      // Clear with deep space gradient
-      const gradient = ctx.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
-        0,
-        canvas.width / 2,
-        canvas.height / 2,
-        canvas.width * 0.8
-      );
-      gradient.addColorStop(0, "#0a0a12");
-      gradient.addColorStop(0.5, "#050508");
-      gradient.addColorStop(1, "#000002");
-      ctx.fillStyle = gradient;
+      // Clear with fade effect for smoother trails
+      ctx.fillStyle = "rgba(5, 5, 15, 0.2)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Draw stars with parallax
-      const parallaxStrength = [5, 15, 30]; // Different for each layer
-
+      // Update and draw stars
       starsRef.current.forEach((star) => {
-        const parallax = parallaxStrength[star.layer];
-        const offsetX = mouseRef.current.x * parallax;
-        const offsetY = mouseRef.current.y * parallax;
+        // Store previous screen position for trail
+        const prevScreenX = (star.prevX / star.z) * 400 + centerX;
+        const prevScreenY = (star.prevY / star.z) * 400 + centerY;
 
-        const x = star.x + offsetX;
-        const y = star.y + offsetY;
+        // Update z position (move towards viewer)
+        star.prevX = star.x;
+        star.prevY = star.y;
+        star.z -= SPEED;
 
-        // Wrap around edges
-        const wrappedX = ((x % canvas.width) + canvas.width) % canvas.width;
-        const wrappedY = ((y % canvas.height) + canvas.height) % canvas.height;
-
-        // Twinkle effect
-        const twinkle = Math.sin(time * star.twinkleSpeed + star.twinklePhase) * 0.3 + 0.7;
-        const finalOpacity = star.opacity * twinkle;
-
-        // Draw star with glow
-        ctx.beginPath();
-        ctx.arc(wrappedX, wrappedY, star.size, 0, Math.PI * 2);
-
-        // Glow effect for larger stars
-        if (star.layer === 2) {
-          const glowGradient = ctx.createRadialGradient(
-            wrappedX, wrappedY, 0,
-            wrappedX, wrappedY, star.size * 4
-          );
-          glowGradient.addColorStop(0, `rgba(255, 255, 255, ${finalOpacity})`);
-          glowGradient.addColorStop(0.3, `rgba(200, 220, 255, ${finalOpacity * 0.3})`);
-          glowGradient.addColorStop(1, "transparent");
-          ctx.fillStyle = glowGradient;
-          ctx.fillRect(wrappedX - star.size * 4, wrappedY - star.size * 4, star.size * 8, star.size * 8);
-        }
-
-        ctx.fillStyle = `rgba(255, 255, 255, ${finalOpacity})`;
-        ctx.fill();
-      });
-
-      // Shooting stars
-      const now = Date.now();
-      if (now - lastShootingStarRef.current > 4000 + Math.random() * 6000) {
-        spawnShootingStar(canvas.width, canvas.height);
-        lastShootingStarRef.current = now;
-      }
-
-      shootingStarsRef.current.forEach((star) => {
-        if (!star.active) return;
-
-        star.x += Math.cos(star.angle) * star.speed;
-        star.y += Math.sin(star.angle) * star.speed;
-        star.opacity -= 0.015;
-
-        if (star.opacity <= 0 || star.x > canvas.width || star.y > canvas.height) {
-          star.active = false;
+        // Reset star if it's past the viewer
+        if (star.z <= 0) {
+          const newStar = createStar(false);
+          star.x = newStar.x;
+          star.y = newStar.y;
+          star.z = MAX_DEPTH;
+          star.prevX = star.x;
+          star.prevY = star.y;
+          star.isGold = Math.random() < 0.15;
           return;
         }
 
-        // Draw shooting star
-        const tailX = star.x - Math.cos(star.angle) * star.length;
-        const tailY = star.y - Math.sin(star.angle) * star.length;
+        // Calculate screen position with perspective
+        const screenX = (star.x / star.z) * 400 + centerX;
+        const screenY = (star.y / star.z) * 400 + centerY;
 
-        const gradient = ctx.createLinearGradient(tailX, tailY, star.x, star.y);
-        gradient.addColorStop(0, "transparent");
-        gradient.addColorStop(0.7, `rgba(255, 255, 255, ${star.opacity * 0.5})`);
-        gradient.addColorStop(1, `rgba(255, 255, 255, ${star.opacity})`);
+        // Skip if outside viewport
+        if (
+          screenX < -50 ||
+          screenX > canvas.width + 50 ||
+          screenY < -50 ||
+          screenY > canvas.height + 50
+        ) {
+          return;
+        }
 
+        // Calculate size and brightness based on depth
+        const depth = 1 - star.z / MAX_DEPTH;
+        const size = Math.max(0.5, depth * 3);
+        const brightness = Math.min(1, depth * 1.5);
+
+        // Calculate trail start position (interpolated for smooth trail)
+        const trailX = prevScreenX + (screenX - prevScreenX) * (1 - TRAIL_LENGTH);
+        const trailY = prevScreenY + (screenY - prevScreenY) * (1 - TRAIL_LENGTH);
+
+        // Draw trail
+        if (depth > 0.1) {
+          const gradient = ctx.createLinearGradient(trailX, trailY, screenX, screenY);
+
+          if (star.isGold) {
+            gradient.addColorStop(0, "rgba(201, 160, 80, 0)");
+            gradient.addColorStop(0.5, `rgba(201, 160, 80, ${brightness * 0.3})`);
+            gradient.addColorStop(1, `rgba(255, 215, 100, ${brightness})`);
+          } else {
+            gradient.addColorStop(0, "rgba(255, 255, 255, 0)");
+            gradient.addColorStop(0.5, `rgba(200, 220, 255, ${brightness * 0.3})`);
+            gradient.addColorStop(1, `rgba(255, 255, 255, ${brightness})`);
+          }
+
+          ctx.beginPath();
+          ctx.moveTo(trailX, trailY);
+          ctx.lineTo(screenX, screenY);
+          ctx.strokeStyle = gradient;
+          ctx.lineWidth = size * 0.8;
+          ctx.lineCap = "round";
+          ctx.stroke();
+        }
+
+        // Draw star head (bright point)
         ctx.beginPath();
-        ctx.moveTo(tailX, tailY);
-        ctx.lineTo(star.x, star.y);
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 2;
-        ctx.lineCap = "round";
-        ctx.stroke();
+        ctx.arc(screenX, screenY, size, 0, Math.PI * 2);
 
-        // Bright head
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
+        if (star.isGold) {
+          ctx.fillStyle = `rgba(255, 215, 100, ${brightness})`;
+          // Add glow for gold stars
+          if (depth > 0.5) {
+            ctx.shadowColor = "rgba(201, 160, 80, 0.8)";
+            ctx.shadowBlur = size * 4;
+          }
+        } else {
+          ctx.fillStyle = `rgba(255, 255, 255, ${brightness})`;
+          if (depth > 0.7) {
+            ctx.shadowColor = "rgba(200, 220, 255, 0.5)";
+            ctx.shadowBlur = size * 2;
+          }
+        }
+
         ctx.fill();
+        ctx.shadowBlur = 0;
       });
 
-      // Subtle nebula clouds
-      const nebulaGradient = ctx.createRadialGradient(
-        canvas.width * 0.8,
-        canvas.height * 0.2,
+      // Add subtle center glow (where stars emerge from)
+      const centerGlow = ctx.createRadialGradient(
+        centerX,
+        centerY,
         0,
-        canvas.width * 0.8,
-        canvas.height * 0.2,
-        canvas.width * 0.4
+        centerX,
+        centerY,
+        150
       );
-      nebulaGradient.addColorStop(0, "rgba(201, 160, 80, 0.02)"); // ace-gold
-      nebulaGradient.addColorStop(0.5, "rgba(100, 80, 150, 0.01)");
-      nebulaGradient.addColorStop(1, "transparent");
-      ctx.fillStyle = nebulaGradient;
+      centerGlow.addColorStop(0, "rgba(201, 160, 80, 0.03)");
+      centerGlow.addColorStop(0.5, "rgba(100, 120, 180, 0.02)");
+      centerGlow.addColorStop(1, "transparent");
+      ctx.fillStyle = centerGlow;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       animationRef.current = requestAnimationFrame(animate);
     };
 
+    // Start animation
     animate();
 
     return () => {
       window.removeEventListener("resize", handleResize);
-      window.removeEventListener("mousemove", handleMouseMove);
       cancelAnimationFrame(animationRef.current);
     };
-  }, [initStars, spawnShootingStar]);
+  }, []);
 
   return (
     <canvas
