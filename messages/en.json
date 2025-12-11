@@ -337,12 +337,12 @@
     "button": "Let's talk"
   },
   "notFound": {
-    "title": "Lost in the void...",
-    "message": "Houston, we have a problem. This page doesn't exist.",
-    "bonus": "At least the view is nice.",
+    "title": "Everything collapsed.",
+    "subtitle": "Except us — we're still here.",
+    "easterEgg": "What are you looking for exactly? 👀",
     "cta": {
-      "home": "Back to Earth",
-      "contact": "Send an SOS"
+      "home": "Back to home",
+      "contact": "Contact us"
     }
   },
   "portfolio": {

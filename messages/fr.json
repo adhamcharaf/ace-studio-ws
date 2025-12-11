@@ -337,12 +337,12 @@
     "button": "Parlons-en"
   },
   "notFound": {
-    "title": "Perdu dans le vide...",
-    "message": "Houston, on a un problème. Cette page n'existe pas.",
-    "bonus": "Au moins la vue est belle.",
+    "title": "Tout s'est effondré.",
+    "subtitle": "Sauf nous — on est toujours là.",
+    "easterEgg": "Tu cherches quoi exactement ? 👀",
     "cta": {
-      "home": "Retour sur Terre",
-      "contact": "Envoyer un SOS"
+      "home": "Retour à l'accueil",
+      "contact": "Nous contacter"
     }
   },
   "portfolio": {

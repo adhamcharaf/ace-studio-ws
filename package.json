@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
-    "gsap": "^3.13.0",
+    "gsap": "^3.14.1",
     "matter-js": "^0.20.0",
     "next": "16.0.7",
     "next-intl": "^4.5.8",
