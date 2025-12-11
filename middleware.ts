@@ -50,8 +50,9 @@ export default function middleware(request: NextRequest) {
 
     if (!pathnameLocale) {
       // Pas de locale dans l'URL, rediriger vers la locale détectée
+      // Code 308 = redirect permanent (préserve le SEO)
       const newUrl = new URL(`/${detectedLocale}${pathname}`, request.url);
-      const redirectResponse = NextResponse.redirect(newUrl);
+      const redirectResponse = NextResponse.redirect(newUrl, 308);
       redirectResponse.cookies.set('NEXT_LOCALE', detectedLocale, {
         maxAge: 60 * 60 * 24 * 365,
         path: '/',
