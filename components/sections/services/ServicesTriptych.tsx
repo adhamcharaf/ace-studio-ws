@@ -90,6 +90,7 @@ export default function ServicesTriptych() {
                       muted
                       loop
                       playsInline
+                      aria-label={`Démonstration du projet ${project.title} - ${project.description}`}
                       className={cn(
                         "w-full h-full object-cover transition-transform duration-700",
                         isHovered ? "scale-105" : "scale-100"

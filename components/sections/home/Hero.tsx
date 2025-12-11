@@ -255,6 +255,8 @@ export default function Hero() {
           fill
           className="object-contain"
           priority
+          role="presentation"
+          aria-hidden="true"
         />
       </div>
 
