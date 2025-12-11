@@ -337,9 +337,13 @@
     "button": "Parlons-en"
   },
   "notFound": {
-    "title": "404",
-    "message": "Cette page a disparu comme un tour de magie.",
-    "bonus": "Tu attends quoi ? Le lapin blanc ?"
+    "title": "Perdu dans le vide...",
+    "message": "Houston, on a un problème. Cette page n'existe pas.",
+    "bonus": "Au moins la vue est belle.",
+    "cta": {
+      "home": "Retour sur Terre",
+      "contact": "Envoyer un SOS"
+    }
   },
   "portfolio": {
     "header": {

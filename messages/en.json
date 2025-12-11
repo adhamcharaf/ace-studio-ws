@@ -337,9 +337,13 @@
     "button": "Let's talk"
   },
   "notFound": {
-    "title": "404",
-    "message": "This page has vanished like a magic trick.",
-    "bonus": "What are you waiting for? The white rabbit?"
+    "title": "Lost in the void...",
+    "message": "Houston, we have a problem. This page doesn't exist.",
+    "bonus": "At least the view is nice.",
+    "cta": {
+      "home": "Back to Earth",
+      "contact": "Send an SOS"
+    }
   },
   "portfolio": {
     "header": {
