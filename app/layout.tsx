@@ -5,11 +5,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="fr" suppressHydrationWarning>
-      <body className="bg-[#0a0a0a] text-white antialiased">
-        {children}
-      </body>
-    </html>
-  );
+  // Ne pas wrapper avec <html><body> ici
+  // Les routes [locale] ont leur propre structure HTML complète
+  // Cela évite le HTML imbriqué (<html> dans <body>)
+  return children;
 }
