@@ -363,5 +363,71 @@
     "closeMenu": "Close menu",
     "switchLanguage": "Switch language",
     "contactWhatsApp": "Contact on WhatsApp"
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know before reaching out.",
+    "items": [
+      {
+        "question": "How much does a website cost?",
+        "answer": "Every project is unique, so every quote is too. Rather than fixed pricing grids, we prefer to discuss your needs to offer you a fair proposal. It's free and no-commitment."
+      },
+      {
+        "question": "What are your delivery times?",
+        "answer": "Expect 1 to 3 weeks depending on project complexity. We set a realistic timeline together from the start — and we stick to it."
+      },
+      {
+        "question": "How does a project work with you?",
+        "answer": "Four simple steps: Brief (we listen), Direction (we explore together), Creation (we code custom), Launch (we deliver and stay). You're involved at every step, never left in the dark."
+      },
+      {
+        "question": "Why choose ACE STUDIO over a template?",
+        "answer": "A template is quick and generic. Your site will look like 10,000 others. With us, every line of code is written for you. And most importantly, we support you from start to finish — and beyond. Result: a unique, high-performing site that truly reflects you."
+      },
+      {
+        "question": "I don't have a logo or brand guidelines yet, can you help?",
+        "answer": "Absolutely. Our Digital Identity package covers everything: logo, brand guidelines, and matching website. A coherent identity, designed from A to Z."
+      },
+      {
+        "question": "Do you build mobile apps?",
+        "answer": "Yes, on quote. iOS, Android, or both — all projects are possible with a quote tailored to your needs."
+      },
+      {
+        "question": "Can you create an online store?",
+        "answer": "Of course. All projects are possible with a quote tailored to your needs. Let's talk about your vision."
+      },
+      {
+        "question": "Will my site rank well on Google?",
+        "answer": "All our sites are built to please Google from the start: clean structure, optimized speed, best practices integrated. You start with a solid foundation."
+      },
+      {
+        "question": "Can you take over or redesign an existing site?",
+        "answer": "Yes. Complete redesign, modernization, or simple improvements — we analyze the existing site and propose the best approach."
+      },
+      {
+        "question": "Do you provide maintenance?",
+        "answer": "We don't abandon you after delivery. Updates, adjustments, technical support — maintenance is included. For more info, contact us."
+      },
+      {
+        "question": "Do you work with clients outside Ivory Coast?",
+        "answer": "Yes. Our tools allow us to collaborate effectively remotely. Video calls, messaging, screen sharing — location is not an obstacle."
+      },
+      {
+        "question": "How can I contact you?",
+        "answer": "WhatsApp for the fast track, form or email for detailed requests. We respond within 24 hours, promise."
+      },
+      {
+        "question": "What payment methods do you accept?",
+        "answer": "Bank transfer, Mobile Money (Orange, MTN, Wave) — we adapt. Payment is usually made in stages based on project progress."
+      },
+      {
+        "question": "What's the \"DON'T CLICK\" button?",
+        "answer": "You'll just have to click to find out. Hint: it's in the navigation bar. We warned you. 😏"
+      },
+      {
+        "question": "I can't catch the \"This button does nothing\" button...",
+        "answer": "Don't worry, it eventually runs out of steam. Keep trying. 😉"
+      }
+    ]
   }
 }

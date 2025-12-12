@@ -5,6 +5,7 @@ import {
   CodeToDesign,
   ServicesTriptych,
   Comparison,
+  FAQ,
   ServicesCTA,
 } from "@/components/sections/services";
 import { type Locale } from "@/i18n/config";
@@ -33,6 +34,7 @@ export default function ServicesPage() {
       <ServicesHeader />
       <ServicesTriptych />
       <Comparison />
+      <FAQ />
       <ServicesCTA />
     </>
   );
