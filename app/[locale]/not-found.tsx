@@ -17,10 +17,7 @@ export default function NotFound() {
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-6 py-20">
         {/* Floating Card */}
         <div className="mb-10">
-          <FloatingCard
-            onClickRedirect="/"
-            easterEggText={t("easterEgg")}
-          />
+          <FloatingCard onClickRedirect="/" />
         </div>
 
         {/* Text content */}
