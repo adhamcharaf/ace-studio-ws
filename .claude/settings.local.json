@@ -6,6 +6,13 @@
       "Bash(git push:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
+<<<<<<< Updated upstream
+=======
+      "Bash(gh pr view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(npm run build:*)",
+      "Bash(git checkout:*)",
+>>>>>>> Stashed changes
       "Bash(git pull:*)"
     ],
     "deny": [],
