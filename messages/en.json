@@ -337,12 +337,11 @@
     "button": "Let's talk"
   },
   "notFound": {
-    "title": "Everything collapsed.",
-    "subtitle": "Except us — we're still here.",
-    "easterEgg": "What are you looking for exactly? 👀",
+    "title": "Bad draw.",
+    "subtitle": "Don't worry, we're here to guide you.",
     "cta": {
-      "home": "Back to home",
-      "contact": "Contact us"
+      "home": "Draw again",
+      "contact": "Call the dealer"
     }
   },
   "portfolio": {

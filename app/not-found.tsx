@@ -20,10 +20,10 @@ export default function NotFound() {
         {/* Text content */}
         <div className="text-center max-w-md">
           <h1 className="text-2xl md:text-4xl font-bold text-white mb-3 font-[var(--font-playfair)]">
-            Tout s&apos;est effondré.
+            Mauvaise pioche.
           </h1>
           <p className="text-base md:text-lg text-white/60 mb-8">
-            Sauf nous — on est toujours là.
+            Mais t&apos;inquiète, on est là pour te guider.
           </p>
 
           {/* CTAs */}
@@ -40,7 +40,7 @@ export default function NotFound() {
                 "hover:shadow-[0_0_30px_rgba(201,160,80,0.5)]"
               )}
             >
-              Retour à l&apos;accueil
+              Repiocher
             </Link>
             <Link
               href="/fr/contact"
@@ -53,7 +53,7 @@ export default function NotFound() {
                 "hover:border-[#c9a050] hover:text-[#c9a050]"
               )}
             >
-              Nous contacter
+              Appeler le croupier
             </Link>
           </div>
         </div>

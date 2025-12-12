@@ -337,12 +337,11 @@
     "button": "Parlons-en"
   },
   "notFound": {
-    "title": "Tout s'est effondré.",
-    "subtitle": "Sauf nous — on est toujours là.",
-    "easterEgg": "Tu cherches quoi exactement ? 👀",
+    "title": "Mauvaise pioche.",
+    "subtitle": "Mais t'inquiète, on est là pour te guider.",
     "cta": {
-      "home": "Retour à l'accueil",
-      "contact": "Nous contacter"
+      "home": "Repiocher",
+      "contact": "Appeler le croupier"
     }
   },
   "portfolio": {
