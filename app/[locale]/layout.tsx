@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, getTranslations } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import Script from "next/script";
+import { GoogleAnalytics } from '@next/third-parties/google';
 import "../globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -132,6 +133,7 @@ export default async function LocaleLayout({
             </ClientLayout>
           </ThemeProvider>
         </NextIntlClientProvider>
+        <GoogleAnalytics gaId="G-S04HP48FD6" />
       </body>
     </html>
   );
