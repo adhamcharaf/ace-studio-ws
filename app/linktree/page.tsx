@@ -47,19 +47,38 @@ const LINKS = [
   },
 ];
 
+// Fixed particle positions to avoid hydration mismatch
+const PARTICLES = [
+  { left: 12, top: 8, duration: 14, delay: 0 },
+  { left: 85, top: 15, duration: 18, delay: 2 },
+  { left: 45, top: 22, duration: 12, delay: 1 },
+  { left: 78, top: 35, duration: 16, delay: 3 },
+  { left: 23, top: 42, duration: 10, delay: 0.5 },
+  { left: 92, top: 55, duration: 15, delay: 4 },
+  { left: 8, top: 68, duration: 19, delay: 1.5 },
+  { left: 55, top: 75, duration: 11, delay: 2.5 },
+  { left: 38, top: 88, duration: 17, delay: 0.8 },
+  { left: 70, top: 92, duration: 13, delay: 3.5 },
+  { left: 5, top: 30, duration: 16, delay: 1.2 },
+  { left: 95, top: 78, duration: 14, delay: 4.2 },
+  { left: 62, top: 12, duration: 18, delay: 0.3 },
+  { left: 28, top: 58, duration: 12, delay: 2.8 },
+  { left: 82, top: 45, duration: 15, delay: 1.8 },
+];
+
 // Floating particles component
 function GoldenParticles() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {[...Array(20)].map((_, i) => (
+      {PARTICLES.map((p, i) => (
         <div
           key={i}
           className="absolute w-1 h-1 rounded-full bg-[#C9A050] opacity-20"
           style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            animation: `float-particle ${8 + Math.random() * 12}s ease-in-out infinite`,
-            animationDelay: `${Math.random() * 5}s`,
+            left: `${p.left}%`,
+            top: `${p.top}%`,
+            animation: `float-particle ${p.duration}s ease-in-out infinite`,
+            animationDelay: `${p.delay}s`,
           }}
         />
       ))}
@@ -317,7 +336,7 @@ export default function LinktreePage() {
             `}
             style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 300 }}
           >
-            Sites web sur mesure
+            Une présence digitale à votre image.
           </p>
 
           {/* Decorative line */}
