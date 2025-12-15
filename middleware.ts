@@ -11,12 +11,13 @@ const intlMiddleware = createMiddleware({
 export default function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // Skip les routes API et les fichiers statiques
+  // Skip les routes API, fichiers statiques et pages standalone
   if (
     pathname.startsWith('/api') ||
     pathname.startsWith('/_next') ||
     pathname.startsWith('/images') ||
     pathname.startsWith('/videos') ||
+    pathname.startsWith('/linktree') ||
     pathname.includes('.') // fichiers statiques (.png, .ico, etc.)
   ) {
     return NextResponse.next();
@@ -69,6 +70,6 @@ export default function middleware(request: NextRequest) {
 }
 
 export const config = {
-  // Matcher pour toutes les routes sauf API, _next, et fichiers statiques
-  matcher: ['/((?!api|_next|.*\\..*).*)'],
+  // Matcher pour toutes les routes sauf API, _next, fichiers statiques et linktree
+  matcher: ['/((?!api|_next|linktree|.*\\..*).*)'],
 };
